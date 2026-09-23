@@ -11,6 +11,10 @@ export type Artist = {
     src: string // streamed from the Media repo's GitHub Pages
   }
   onTheShow?: string
+  gallery?: {
+    title: string
+    images: { src: string; caption: string }[]
+  }
   mediaFolder: string // music/<folder> in the Media repo
   links: { label: string; url: string }[]
 }
@@ -34,6 +38,16 @@ export const artists: Artist[] = [
       src: `${MEDIA}shmorez/thuggish-ruggish-shmorez/10%20shhh-dont-wake-her-up.mp3`,
     },
     onTheShow: 'The DJ on Al & Sloppy — S1 E7',
+    gallery: {
+      title: 'Synthetic Human Protocol',
+      images: [
+        { src: '/art/artists/shmorez/protocol-sheet.webp', caption: 'Synthetic Human Protocol // 01 — character sheet' },
+        { src: '/art/artists/shmorez/smore-form.webp', caption: 'S’more form' },
+        { src: '/art/artists/shmorez/unit-01.webp', caption: 'Unit 01 — Chronicle 01' },
+        { src: '/art/artists/shmorez/kiborg.webp', caption: 'Kiborg — Chronicle of the Eye' },
+        { src: '/art/artists/shmorez/technical-manual.webp', caption: 'Technical manual, addendum 02 — sub-system breakdown' },
+      ],
+    },
     mediaFolder: 'shmorez',
     links: [
       { label: 'Enter his world', url: 'https://hungryshmorez.github.io/Site/shmorez.html' },

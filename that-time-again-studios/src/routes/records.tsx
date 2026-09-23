@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { Gallery } from '../components/Gallery'
 import { usePlayer } from '../components/Player'
 import { artists, type Artist } from '../data/artists'
 import { loadAlbums, type Album } from '../data/catalog'
@@ -54,6 +55,7 @@ function Discography({ artist }: { artist: Artist }) {
           </div>
         </div>
       </div>
+      {artist.gallery && <Gallery title={artist.gallery.title} images={artist.gallery.images} artist={artist.name} />}
       {error && (
         <p className="section-intro">
           The catalog streams from hungryshmorez.github.io and couldn’t load on this page. Open the site from GitHub Pages to hear everything.

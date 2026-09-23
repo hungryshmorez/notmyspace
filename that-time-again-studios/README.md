@@ -26,7 +26,7 @@ A player bar at the bottom of the page keeps music going while you browse. It ha
 | Show slate (titles, genres, synopses) | `src/data/slate.ts` | Transcribed from the pitch documents. Covers are in `public/art/posters/`. |
 | Al & Sloppy episodes, cast, sets | `src/data/shows.ts` (`extras`) | The videos are Showrunner's MP4s. Stills, characters and sets are in `public/art/`. |
 | Music catalog | **The Media site**: `https://hungryshmorez.github.io/Media/manifest.json` | Read live when the page loads (`src/data/catalog.ts`). Anything uploaded to the Media repo under `music/shmorez/`, `music/tanky/` or `music/driftwave/` appears on the Records page with no rebuild. The album comes from the manifest's `album` field; tracks without one are grouped as Singles. |
-| Artist bios, photos, featured tracks, links | `src/data/artists.ts` | Bios are condensed from each artist's EPK on the festival site. |
+| Artist bios, photos, galleries, featured tracks, links | `src/data/artists.ts` | Bios are condensed from each artist's EPK on the festival site. Gallery images are in `public/art/artists/<slug>/` (SHMOREZ: Synthetic Human Protocol). |
 | The Festival and the artist worlds | **The Site repo**: `https://hungryshmorez.github.io/Site/` | Linked from the header ("Enter the festival"), the Worlds section and each artist's links. |
 
 ## Adding things

@@ -235,6 +235,24 @@ hr { border: 0; border-top: 1px solid var(--line); margin: 30px 0; }
 .tracklist-more { all: unset; cursor: pointer; margin-top: 12px; font-family: var(--mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.045em; color: var(--muted); }
 .tracklist-more:hover { color: var(--ink); }
 
+/* Artist gallery */
+.gallery { margin: 0 0 56px; }
+.gallery-head { display: flex; justify-content: space-between; align-items: baseline; gap: 20px; padding-bottom: 14px; border-bottom: 1px solid var(--line); margin-bottom: 18px; }
+.gallery-head h3 { font-size: 20px; letter-spacing: -0.02em; }
+.gallery-head .label { margin: 0; }
+.gallery-strip { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 14px; }
+.gallery-tile { all: unset; cursor: pointer; display: grid; gap: 10px; align-content: start; }
+.gallery-tile img { width: 100%; aspect-ratio: 2 / 3; object-fit: cover; border-radius: 10px; box-shadow: 0 0 0 1px var(--line); transition: transform 0.5s ease; }
+.gallery-tile:hover img { transform: scale(1.02); }
+.gallery-tile:focus-visible img { outline: 2px solid var(--ink); outline-offset: 3px; }
+.gallery-tile span { font-family: var(--mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.045em; color: var(--muted); line-height: 1.5; }
+.lightbox { padding: 0; border: 0; background: transparent; max-width: min(92vw, 1100px); max-height: 92vh; overflow: visible; }
+.lightbox::backdrop { background: rgba(8, 7, 6, 0.9); backdrop-filter: blur(6px); }
+.lightbox figure { margin: 0; display: grid; gap: 12px; justify-items: center; }
+.lightbox img { max-width: 100%; max-height: 84vh; width: auto; border-radius: 10px; }
+.lightbox figcaption { font-family: var(--mono); font-size: 12px; text-transform: uppercase; letter-spacing: 0.045em; color: var(--ink); text-align: center; }
+.lightbox-close { position: absolute; top: -14px; right: -14px; background: var(--bar); }
+
 /* Site-wide player */
 body:has(.player-bar) { padding-bottom: 84px; }
 .player-bar { position: fixed; left: 0; right: 0; bottom: 0; z-index: 90; display: flex; align-items: center; gap: 18px; padding: 12px var(--pad) calc(12px + env(safe-area-inset-bottom, 0px)); background: rgba(21, 19, 15, 0.94); backdrop-filter: blur(16px); border-top: 1px solid var(--line); }
@@ -293,6 +311,7 @@ body:has(.player-bar) { padding-bottom: 84px; }
   .asset-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .artist-grid { grid-template-columns: 1fr; max-width: 560px; }
   .poster-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .gallery-strip { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .world-feature, .disco-head { grid-template-columns: 1fr; }
   .world-links { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .disco-head .artist-photo { max-width: 300px; }
@@ -306,6 +325,8 @@ body:has(.player-bar) { padding-bottom: 84px; }
   .site-header { grid-template-columns: 1fr; }
   .asset-grid { grid-template-columns: 1fr; }
   .poster-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 26px 14px; }
+  .gallery-strip { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .lightbox-close { top: 6px; right: 6px; }
   .world-links { grid-template-columns: 1fr; }
   .show-intro, .show-intro--text { grid-template-columns: 1fr; }
   .hero.hero--poster { flex-direction: column-reverse; align-items: flex-start; padding: 0 var(--pad) 10px; }

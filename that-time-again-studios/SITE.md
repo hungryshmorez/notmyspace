@@ -38,7 +38,10 @@ downloaded before play, and starting one episode pauses any other (`Shell.tsx`).
 `src/data/artists.ts` lists the Records artists (SHMOREZ, Tanky Johnson, DriftWave Static): bio (condensed
 from each EPK), photo in `public/art/artists/`, a featured track, their `mediaFolder` in Media, and links
 to their world and press kit on the festival site. `ArtistCard.tsx` plays the featured track through the
-site-wide player and links to the full discography on `/records`.
+site-wide player and links to the full discography on `/records`. An artist can also have a `gallery`
+(title + images, portrait tiles, stored in `public/art/artists/<slug>/`); `/records` shows it under the
+artist's header and opens each image full size in a `<dialog>` (`Gallery.tsx`). SHMOREZ's is the
+"Synthetic Human Protocol" set.
 
 ## Slate
 `src/data/slate.ts` holds all 43 shows (title, genre, synopsis, poster). `src/data/shows.ts` merges in
