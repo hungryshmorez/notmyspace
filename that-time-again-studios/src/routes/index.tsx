@@ -1,5 +1,7 @@
 import { Link } from '@tanstack/react-router'
+import { ArtistCard } from '../components/ArtistCard'
 import { EpisodePlayer } from '../components/EpisodePlayer'
+import { artists } from '../data/artists'
 import { getShow, shows } from '../data/shows'
 
 const FEATURED_EPISODES = [7, 11, 5, 1]
@@ -102,6 +104,16 @@ export function HomePage() {
           </svg>
           <h2><img className="records-logo" src="/brand/records-logo.webp" alt="That Time Again Records" /></h2>
           <p>Original recordings, soundtracks and experiments from the studio universe — songs for whatever comes next.</p>
+        </div>
+      </section>
+
+      <section className="section roster">
+        <div className="section-head">
+          <h2>On the label.</h2>
+          <p className="label">That Time Again Records / {artists.length} artists</p>
+        </div>
+        <div className="artist-grid">
+          {artists.map((artist) => <ArtistCard key={artist.slug} artist={artist} />)}
         </div>
       </section>
 

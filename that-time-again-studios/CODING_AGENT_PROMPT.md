@@ -36,3 +36,9 @@ Data lives in `src/data/shows.ts`. Given a show's Showrunner page source:
    `{ name, role?, image, description? }` for characters and sets.
 4. The homepage card link and the detail sections appear automatically once any array is non-empty.
 
+## Adding an artist to the label
+Add an entry to `src/data/artists.ts`: bio from the artist's EPK (condensed, not invented), a square
+WebP photo (~900px) in `public/art/artists/<slug>.webp`, and a track whose `src` is a file in the
+Media repo served at `https://hungryshmorez.github.io/Media/music/...` (URL-encode spaces and
+apostrophes, and confirm it returns audio before committing).
+

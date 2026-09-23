@@ -154,6 +154,27 @@ hr { border: 0; border-top: 1px solid var(--line); margin: 30px 0; }
 .records-logo { width: min(760px, 84vw); height: auto; }
 .records-inner p { max-width: 520px; margin: 34px 0 0; color: var(--body); }
 
+/* Label roster */
+.artist-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 44px 24px; }
+/* Subgrid keeps photos, bios and players on the same lines across cards. */
+.artist-card { display: grid; grid-row: span 6; grid-template-rows: subgrid; row-gap: 0; align-content: start; }
+.artist-photo { aspect-ratio: 1; border-radius: var(--radius); overflow: hidden; background: #000; box-shadow: 0 0 0 1px var(--line); }
+.artist-photo img { width: 100%; height: 100%; object-fit: cover; }
+.artist-tagline { color: var(--ink); font-size: 17px; margin: 16px 0 0; }
+.artist-bio { font-size: 15px; margin: 10px 0 22px; }
+.track { display: flex; align-items: center; gap: 14px; align-self: start; padding: 12px 14px; border-radius: 10px; background: var(--panel); box-shadow: 0 0 0 1px var(--line); }
+.track-button { flex: none; width: 44px; height: 44px; border-radius: 50%; border: 0; background: var(--accent); cursor: pointer; display: grid; place-items: center; }
+.track-button:disabled { opacity: 0.35; cursor: default; }
+.track-button:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+.icon-play { width: 0; height: 0; margin-left: 3px; border-style: solid; border-width: 8px 0 8px 13px; border-color: transparent transparent transparent var(--accent-ink); }
+.icon-pause { width: 12px; height: 14px; border-left: 4px solid var(--accent-ink); border-right: 4px solid var(--accent-ink); }
+.track-info { display: grid; gap: 3px; min-width: 0; flex: 1; }
+.track-title { color: var(--ink); font-size: 15px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.track-release { font-family: var(--mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.045em; color: var(--muted); }
+.track-bar { display: block; height: 2px; margin-top: 6px; background: var(--line); overflow: hidden; }
+.track-bar span { display: block; height: 100%; background: var(--ink); transform-origin: left; transform: scaleX(0); transition: transform 0.25s linear; }
+.artist-show { font-family: var(--mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.045em; color: var(--ember); margin: 14px 0 0; }
+
 /* Show page */
 .subnav { position: sticky; top: 0; z-index: 20; display: flex; align-items: center; gap: 36px; padding: 14px var(--pad); background: rgba(13, 12, 10, 0.86); backdrop-filter: blur(14px); border-bottom: 1px solid var(--line); }
 .subnav-title { color: var(--ink); font-size: 16px; white-space: nowrap; }
@@ -188,6 +209,7 @@ hr { border: 0; border-top: 1px solid var(--line); margin: 30px 0; }
   .feature, .show-intro { grid-template-columns: 1fr; }
   .episode-grid { grid-template-columns: 1fr; }
   .slate-grid, .asset-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .artist-grid { grid-template-columns: 1fr; max-width: 560px; }
   .closer { padding-left: var(--pad); }
   .subnav-links { display: none; }
   .subnav { justify-content: space-between; }

@@ -3,11 +3,11 @@ import { Link } from '@tanstack/react-router'
 import { Grain } from './Grain'
 
 export function Shell({ children }: { children: ReactNode }) {
-  // Only one episode plays at a time.
+  // Only one episode or track plays at a time.
   useEffect(() => {
     const onPlay = (event: Event) => {
-      document.querySelectorAll('video').forEach((video) => {
-        if (video !== event.target) video.pause()
+      document.querySelectorAll<HTMLMediaElement>('video, audio').forEach((media) => {
+        if (media !== event.target) media.pause()
       })
     }
     document.addEventListener('play', onPlay, true)
