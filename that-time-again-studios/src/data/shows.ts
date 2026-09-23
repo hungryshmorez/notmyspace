@@ -91,7 +91,7 @@ export const shows: Show[] = [
     slug: 'that-time-again-records',
     title: 'That Time Again Records',
     eyebrow: 'RECORD LABEL',
-    blurb: 'Original recordings, artist projects and strange sounds from the same universe.',
+    blurb: 'Home of SHMOREZ, Tanky Johnson and DriftWave Static — original recordings and strange sounds from the same universe.',
     longDescription: 'The music arm of That Time Again Studios: releases, soundtracks, experiments and records built with the same tactile analog identity.',
     status: 'ACTIVE',
     heroKind: 'record',

@@ -16,13 +16,19 @@ product-page layout of gxace.com/simulacrum:
 - rounded (14px) media cards with mono title + tag rows and hairline rules
 
 ## Routes
-- `/` — logo hero, featured show, four embedded episodes, the slate, Records, studio table
+- `/` — logo hero, featured show, four embedded episodes, the slate, Records, the label roster, studio table
 - `/shows/al-and-sloppy` — hero, sticky section bar, all 11 episodes embedded, cast, sets
 
 ## Episode embeds
 `src/components/EpisodePlayer.tsx` shows the episode still with a play button; pressing it swaps in a
 `<video>` for the episode's MP4 on Showrunner's CDN (`videoUrl` in `src/data/shows.ts`). Nothing is
 downloaded before play, and starting one episode pauses any other (`Shell.tsx`).
+
+## Label roster
+`src/data/artists.ts` lists the Records artists (SHMOREZ, Tanky Johnson, DriftWave Static): bio (condensed
+from each EPK), photo in `public/art/artists/`, and one track streamed from the Media repo's GitHub Pages
+(`https://hungryshmorez.github.io/Media/music/...`). `ArtistCard.tsx` plays it with a custom player;
+nothing streams before play, and a track that can't load shows "Can't play here".
 
 ## Commands
 ```bash
