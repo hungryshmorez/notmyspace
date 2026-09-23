@@ -1,8 +1,10 @@
 import { Link } from '@tanstack/react-router'
 import { ArtistCard } from '../components/ArtistCard'
+import { BookCard } from '../components/Books'
 import { EpisodeCard, PosterCard, Row } from '../components/Row'
 import { useTheater } from '../components/Theater'
 import { artists, FESTIVAL } from '../data/artists'
+import { books } from '../data/books'
 import { genres, getShow, shows } from '../data/shows'
 
 // Genres with a few shows get their own row; the one-offs share a row at the end.
@@ -72,6 +74,16 @@ export function HomePage() {
         </Row>
       </section>
 
+      <section className="section library-teaser" id="books">
+        <div className="section-head">
+          <h2>The library.</h2>
+          <Link className="text-link" to="/books">All {books.length} e-books →</Link>
+        </div>
+        <Row title="From the library" label="Read online or download">
+          {books.map((book) => <BookCard key={book.slug} book={book} />)}
+        </Row>
+      </section>
+
       <section className="records-band" id="records">
         <img className="records-texture" src="/brand/texture.webp" alt="" />
         <div className="records-inner">
@@ -137,6 +149,7 @@ export function HomePage() {
           <div><dt>Television</dt><dd>{shows.length} shows in development. That Time Again with Al &amp; Sloppy, season one, streaming now.</dd></div>
           <div><dt>Music</dt><dd>That Time Again Records — SHMOREZ, Tanky Johnson and DriftWave Static, with full catalogs on <Link className="inline-link" to="/records">the Records page</Link>.</dd></div>
           <div><dt>Code</dt><dd>Interactive worlds, web apps and games: <a className="inline-link" href={FESTIVAL} target="_blank" rel="noreferrer">The Festival</a>, the DreamOS web-OS, the Wake Up game series, and this site. Source on <a className="inline-link" href="https://github.com/12Matt3r" target="_blank" rel="noreferrer">GitHub</a>.</dd></div>
+          <div><dt>Books</dt><dd>{books.length} e-books: novels from the same worlds as the shows, horror, strange fiction and field guides, in <Link className="inline-link" to="/books">the library</Link>.</dd></div>
           <div><dt>Worlds</dt><dd>Stories that spill across mediums: puppets, broken signals, strange humor and places that linger.</dd></div>
         </dl>
       </section>

@@ -1,6 +1,7 @@
 import { useEffect, type ReactNode } from 'react'
 import { Link } from '@tanstack/react-router'
 import { FESTIVAL } from '../data/artists'
+import { BookProvider } from './Books'
 import { Grain } from './Grain'
 import { PlayerProvider } from './Player'
 import { TheaterProvider } from './Theater'
@@ -20,6 +21,7 @@ export function Shell({ children }: { children: ReactNode }) {
   return (
     <PlayerProvider>
       <TheaterProvider>
+      <BookProvider>
       <div className="site-shell">
         <div className="burn" aria-hidden="true" />
         <Grain />
@@ -31,6 +33,7 @@ export function Shell({ children }: { children: ReactNode }) {
             <Link to="/" hash="browse">Shows</Link>
             <Link to="/" hash="episodes">Episodes</Link>
             <Link to="/records">Records</Link>
+            <Link to="/books">Books</Link>
             <Link to="/" hash="worlds">Worlds</Link>
           </nav>
           <a className="header-note" href={FESTIVAL} target="_blank" rel="noreferrer">Enter the festival ↗</a>
@@ -44,6 +47,7 @@ export function Shell({ children }: { children: ReactNode }) {
           <span>© 2026 That Time Again Studios</span>
         </footer>
       </div>
+      </BookProvider>
       </TheaterProvider>
     </PlayerProvider>
   )

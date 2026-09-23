@@ -46,3 +46,10 @@ and EPK on `https://hungryshmorez.github.io/Site/`.
 
 Never copy the music catalog into this repo: it is read live from the Media manifest.
 
+## Adding an e-book
+1. Render page 1 of the PDF as the cover (e.g. PyMuPDF at ~110 dpi, then WebP ≤480px wide) into
+   `public/art/books/<slug>.webp`.
+2. Pull the chapter titles from the book's table of contents (the "Chapter N" lines on pages 2–4).
+3. Add the entry to `src/data/books.ts`; write the description from the book itself, never invent plot.
+4. Copy the PDF to the Site repo as `public/studios/books/<slug>.pdf` (that's where `pdf()` points).
+

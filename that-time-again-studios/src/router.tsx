@@ -1,6 +1,7 @@
 import { createHashHistory, createRootRoute, createRoute, createRouter, Outlet } from '@tanstack/react-router'
 import { Shell } from './components/Shell'
 import { HomePage } from './routes/index'
+import { BooksPage } from './routes/books'
 import { RecordsPage } from './routes/records'
 import { ShowDetailPage } from './routes/shows.$slug'
 
@@ -26,7 +27,13 @@ const recordsRoute = createRoute({
   component: RecordsPage,
 })
 
-const routeTree = rootRoute.addChildren([indexRoute, showRoute, recordsRoute])
+const booksRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '/books',
+  component: BooksPage,
+})
+
+const routeTree = rootRoute.addChildren([indexRoute, showRoute, recordsRoute, booksRoute])
 
 // The standalone build is opened straight from disk (file://), so it routes by hash.
 const history = import.meta.env.MODE === 'standalone' ? createHashHistory() : undefined

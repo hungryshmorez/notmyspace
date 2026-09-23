@@ -1,6 +1,8 @@
 import { Link, useParams } from '@tanstack/react-router'
+import { BookCard } from '../components/Books'
 import { EpisodeCard, PosterCard, Row } from '../components/Row'
 import { useTheater } from '../components/Theater'
+import { books } from '../data/books'
 import { getShow, shows, type GalleryItem } from '../data/shows'
 
 export function ShowDetailPage() {
@@ -24,6 +26,7 @@ export function ShowDetailPage() {
   const first = episodes[0]
   const related = shows.filter((s) => s.genre === show.genre && s.slug !== show.slug)
   const playFirst = () => openTheater(episodes, 0, show.title)
+  const reading = books.filter((book) => book.show === show.slug)
 
   return (
     <main>
@@ -63,6 +66,14 @@ export function ShowDetailPage() {
           </dl>
         </div>
       </section>
+
+      {reading.length > 0 && (
+        <div className="section">
+          <Row title={reading.length === 1 ? 'Read the book' : 'Read the books'} label={`${reading.length} from the library`}>
+            {reading.map((book) => <BookCard key={book.slug} book={book} />)}
+          </Row>
+        </div>
+      )}
 
       {episodes.length > 0 && (
         <section className="section" id="episodes">
