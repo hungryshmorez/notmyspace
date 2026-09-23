@@ -1,37 +1,12 @@
-import { useEffect, useRef, useState } from 'react'
+import { Link } from '@tanstack/react-router'
 import type { Artist } from '../data/artists'
+import { usePlayer } from './Player'
 
-// Nothing streams until play is pressed; the Shell pauses any other video or track.
 export function ArtistCard({ artist }: { artist: Artist }) {
-  const audio = useRef<HTMLAudioElement>(null)
-  const [state, setState] = useState<'idle' | 'playing' | 'paused' | 'failed'>('idle')
-  const [progress, setProgress] = useState(0)
-
-  useEffect(() => {
-    const el = audio.current
-    if (!el) return
-    const onTime = () => setProgress(el.duration ? el.currentTime / el.duration : 0)
-    const onPause = () => setState((s) => (s === 'failed' ? s : 'paused'))
-    const onPlay = () => setState('playing')
-    const onError = () => setState('failed')
-    el.addEventListener('timeupdate', onTime)
-    el.addEventListener('pause', onPause)
-    el.addEventListener('play', onPlay)
-    el.addEventListener('error', onError)
-    return () => {
-      el.removeEventListener('timeupdate', onTime)
-      el.removeEventListener('pause', onPause)
-      el.removeEventListener('play', onPlay)
-      el.removeEventListener('error', onError)
-    }
-  }, [])
-
-  const toggle = () => {
-    const el = audio.current
-    if (!el) return
-    if (state === 'playing') el.pause()
-    else el.play().catch(() => setState('failed'))
-  }
+  const player = usePlayer()
+  const track = { title: artist.track.title, artist: artist.name, album: artist.track.release, src: artist.track.src }
+  const active = player.isCurrent(track)
+  const playing = active && player.playing
 
   return (
     <article className="artist-card">
@@ -42,18 +17,19 @@ export function ArtistCard({ artist }: { artist: Artist }) {
       </div>
       <p className="artist-tagline">{artist.tagline}</p>
       <p className="artist-bio">{artist.bio}</p>
-      <div className="track">
-        <button className="track-button" onClick={toggle} disabled={state === 'failed'} aria-label={`${state === 'playing' ? 'Pause' : 'Play'} ${artist.track.title}`}>
-          <span className={state === 'playing' ? 'icon-pause' : 'icon-play'} aria-hidden="true" />
+      <div className={`track${active ? ' track--active' : ''}`}>
+        <button className="track-button" onClick={() => player.play([track])} aria-label={`${playing ? 'Pause' : 'Play'} ${track.title}`}>
+          <span className={playing ? 'icon-pause' : 'icon-play'} aria-hidden="true" />
         </button>
         <div className="track-info">
-          <span className="track-title">{artist.track.title}</span>
-          <span className="track-release">{state === 'failed' ? 'Can’t play here' : artist.track.release}</span>
-          <span className="track-bar"><span style={{ transform: `scaleX(${progress})` }} /></span>
+          <span className="track-title">{track.title}</span>
+          <span className="track-release">{track.album}</span>
         </div>
-        <audio ref={audio} src={artist.track.src} preload="none" />
       </div>
-      {artist.onTheShow && <p className="artist-show">{artist.onTheShow}</p>}
+      <div className="artist-links">
+        <Link className="text-link" to="/records" hash={artist.slug}>Full discography →</Link>
+        {artist.onTheShow && <span className="artist-show">{artist.onTheShow}</span>}
+      </div>
     </article>
   )
 }

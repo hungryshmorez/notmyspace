@@ -11,7 +11,11 @@ export type Artist = {
     src: string // streamed from the Media repo's GitHub Pages
   }
   onTheShow?: string
+  mediaFolder: string // music/<folder> in the Media repo
+  links: { label: string; url: string }[]
 }
+
+export const FESTIVAL = 'https://hungryshmorez.github.io/Site/'
 
 const MEDIA = 'https://hungryshmorez.github.io/Media/music/'
 
@@ -30,6 +34,11 @@ export const artists: Artist[] = [
       src: `${MEDIA}shmorez/thuggish-ruggish-shmorez/10%20shhh-dont-wake-her-up.mp3`,
     },
     onTheShow: 'The DJ on Al & Sloppy — S1 E7',
+    mediaFolder: 'shmorez',
+    links: [
+      { label: 'Enter his world', url: 'https://hungryshmorez.github.io/Site/shmorez.html' },
+      { label: 'Press kit', url: 'https://hungryshmorez.github.io/Site/epk/shmorez/' },
+    ],
   },
   {
     slug: 'tanky-johnson',
@@ -44,6 +53,11 @@ export const artists: Artist[] = [
       src: `${MEDIA}tanky/for-momma/11%20Cowboys%20Don%27t%20Cry.mp3`,
     },
     onTheShow: 'Al & Sloppy react to it in S1 E5',
+    mediaFolder: 'tanky',
+    links: [
+      { label: 'Enter his world', url: 'https://hungryshmorez.github.io/Site/tanky.html' },
+      { label: 'Press kit', url: 'https://hungryshmorez.github.io/Site/epk/tanky/' },
+    ],
   },
   {
     slug: 'driftwave-static',
@@ -57,5 +71,11 @@ export const artists: Artist[] = [
       release: 'Midnight Vapor Circuit',
       src: `${MEDIA}static-drift-anthem.mp3`,
     },
+    mediaFolder: 'driftwave',
+    links: [
+      { label: 'Enter the chill zone', url: 'https://hungryshmorez.github.io/Site/driftwave.html' },
+      { label: 'Press kit', url: 'https://hungryshmorez.github.io/Site/epk/driftwave/' },
+      { label: 'Bandcamp', url: 'https://driftwavestatic.bandcamp.com/' },
+    ],
   },
 ]

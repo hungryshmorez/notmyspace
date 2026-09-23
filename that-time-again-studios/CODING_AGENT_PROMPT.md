@@ -6,7 +6,7 @@ Maintain this project as a complete, reproducible Vite + React + TanStack Router
 1. Preserve the visual system described in SITE.md (brand logotypes + burnt film texture, warm charcoal and cream, animated grain, tight Helvetica headlines, mono labels, rounded media cards). Never re-type the logo in a font; use the images in public/brand/.
 2. Do not replace the site with a generic white SaaS layout.
 3. Never hand-edit standalone.html; regenerate it with `npm run build:standalone`.
-4. Keep Al & Sloppy detail content: 11 episodes, 6 characters, 6 sets.
+4. Keep Al & Sloppy detail content: 11 episodes, 6 characters, 6 sets. Keep all 43 shows on the slate with their posters.
 5. Never use truthy numeric lengths to conditionally render links. Use explicit `> 0` checks.
 6. The project must remain runnable from the delivered root with `npm install && npm run build`.
 7. Do not hand-edit generated router output. This rebuild uses a code-defined route tree in `src/router.tsx`, so there is no generated route tree to maintain.
@@ -38,7 +38,11 @@ Data lives in `src/data/shows.ts`. Given a show's Showrunner page source:
 
 ## Adding an artist to the label
 Add an entry to `src/data/artists.ts`: bio from the artist's EPK (condensed, not invented), a square
-WebP photo (~900px) in `public/art/artists/<slug>.webp`, and a track whose `src` is a file in the
-Media repo served at `https://hungryshmorez.github.io/Media/music/...` (URL-encode spaces and
-apostrophes, and confirm it returns audio before committing).
+WebP photo (~900px) in `public/art/artists/<slug>.webp`, `mediaFolder` (their folder under `music/` in
+the Media repo — their whole catalog then appears on /records from the live manifest), a featured
+track whose `src` is a file in Media served at `https://hungryshmorez.github.io/Media/music/...`
+(URL-encode spaces and apostrophes, and confirm it returns audio), and links to their festival world
+and EPK on `https://hungryshmorez.github.io/Site/`.
+
+Never copy the music catalog into this repo: it is read live from the Media manifest.
 
