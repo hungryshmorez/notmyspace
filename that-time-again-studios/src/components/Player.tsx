@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useRef, useState, type ReactNode } from 'react'
 import type { Track } from '../data/catalog'
+import { LIVE_URL } from '../data/site'
 
 type Player = {
   current?: Track
@@ -118,7 +119,7 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
           <div className="player-bar-info">
             <span className="track-title">{current.title}</span>
             <span className="track-release">
-              {failed ? 'Can’t play here — open the site on GitHub Pages' : `${current.artist} · ${current.album}`}
+              {failed ? <>Can’t play on this page — <a className="inline-link" href={LIVE_URL} target="_blank" rel="noreferrer">open the live site ↗</a></> : `${current.artist} · ${current.album}`}
             </span>
             <input
               className="player-seek"

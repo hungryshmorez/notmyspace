@@ -16,7 +16,7 @@ product-page layout of gxace.com/simulacrum:
 - rounded (14px) media cards with mono title + tag rows and hairline rules
 
 ## Routes
-- `/` — logo hero, featured show, four embedded episodes, the slate (poster wall + genre filter), Records,
+- `/` — logo hero, featured show, Browse (episode row + genre rows), Records,
   the label roster, Worlds & code (The Festival), studio table
 - `/shows/$slug` — every show: poster hero, synopsis, spec table, more from the genre. Shows with a
   `heroStill` (That Time Again with Al & Sloppy) get the still as the hero, a sticky section bar, episodes, cast and sets.
@@ -29,10 +29,18 @@ queue; the bar at the bottom has prev / play-pause / next / seek and advances th
 `src/data/catalog.ts` fetches `https://hungryshmorez.github.io/Media/manifest.json` once, groups an
 artist's tracks by `album` (no album → Singles) and strips the "Artist — " prefix from titles.
 
-## Episode embeds
-`src/components/EpisodePlayer.tsx` shows the episode still with a play button; pressing it swaps in a
-`<video>` for the episode's MP4 on Showrunner's CDN (`videoUrl` in `src/data/shows.ts`). Nothing is
-downloaded before play, and starting one episode pauses any other (`Shell.tsx`).
+## Episodes: the theater
+`src/components/Theater.tsx` (`TheaterProvider` in `Shell.tsx`, `useTheater()` to open) plays an
+episode's MP4 from Showrunner's CDN (`videoUrl` in `src/data/shows.ts`) in a modal `<dialog>`: large
+16:9 screen (vertical episodes letterboxed), title, S/E, runtime, synopsis, previous / next, and
+auto-advance on `ended`. If the video can't load, it shows the still with links to the live site and
+Showrunner. `EpisodeCard` (in `Row.tsx`) is the landscape tile that opens it.
+
+## Browse rows
+`src/components/Row.tsx` is the Netflix-style row: a single scroll-snapped line of cards that bleeds
+to the page edge, with ‹ › buttons on wide screens (hidden on phones, where you swipe). The home page
+builds a "Now streaming" row of episodes plus one row per genre with 3+ shows (largest first) and a
+"More from the slate" row for the rest; show pages end with a "More <genre>" row.
 
 ## Label roster
 `src/data/artists.ts` lists the Records artists (SHMOREZ, Tanky Johnson, DriftWave Static): bio (condensed

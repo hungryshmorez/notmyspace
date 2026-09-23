@@ -2,22 +2,22 @@
 
 The home of That Time Again Studios: television, music, film, code and strange worlds.
 
-- **Shows**: all 43 shows on the slate, each with its cover and pitch, and a filter by genre
-- **Episodes**: *That Time Again with Al & Sloppy*, season one. All 11 episodes play on the site.
+- **Shows**: all 43 shows on the slate, browsed in Netflix-style rows by genre, each with its own page
+- **Episodes**: *That Time Again with Al & Sloppy*, season one. All 11 episodes play right on the site, in a theater player that rolls on to the next episode.
 - **Records**: That Time Again Records. The full catalogs of SHMOREZ, Tanky Johnson and DriftWave Static (184 tracks across 11 releases) play on the site.
 - **Worlds & code**: The Festival, our walkable 3D night festival, plus the artist worlds inside it and the rest of what we build
 
-Live: `https://hungryshmorez.github.io/notmyspace/that-time-again-studios/standalone.html` once GitHub Pages is on for this repo (Settings → Pages → deploy from `main`).
+Live: **https://hungryshmorez.github.io/Site/studios/**. It's published through the Site repo's GitHub Pages; see Deploy.
 
 ## What's on the site
 
 | Page | What it has |
 |------|-------------|
-| `/` | Logo hero, That Time Again with Al & Sloppy feature, 4 playable episodes, the slate (all 43 posters with a genre filter), Records, the label roster, Worlds & code, and what we make |
-| `/shows/<slug>` | Every show has a page with its poster, genre, status, full synopsis and more shows from the same genre. That Time Again with Al & Sloppy's page adds all 11 episodes, the cast and the sets. |
+| `/` | Logo hero, the That Time Again with Al & Sloppy feature, **Browse**: a "Now streaming" row with all 11 episodes, then one sideways-scrolling row of posters per genre (Sci-Fi, Comedy, Horror, Anime, Drama, Family, Fantasy, and "More from the slate"). Then Records, the label roster, Worlds & code, and what we make. |
+| `/shows/<slug>` | Every show has a page with its poster, genre, status, full synopsis and more shows from the same genre. That Time Again with Al & Sloppy's page adds Play season one, all 11 episodes, the cast and the sets. |
 | `/records` | Every album by every label artist, with Play album, Play everything and per-track play. Links to each artist's world at the festival and to their press kit. |
 
-A player bar at the bottom of the page keeps music going while you browse. It has previous, play/pause, next and seek. Only one song or episode plays at a time.
+Clicking any episode opens the **theater**, a large player over the page with previous and next episode buttons. It plays the next episode automatically, and Escape or a click outside closes it. A **player bar** at the bottom of the page keeps music going while you browse, with previous, play/pause, next and seek. Only one song or episode plays at a time.
 
 ## Where the content comes from
 
@@ -56,7 +56,8 @@ Stack: Vite, React 19, TanStack Router (code-defined route tree in `src/router.t
 
 This folder is self-contained inside the notmyspace repo.
 
-- **GitHub Pages:** turn on Pages for `main` and open `that-time-again-studios/standalone.html`.
+- **Live site (Site repo):** the Site repo already deploys to GitHub Pages on every push to `main`. The studio site lives there as `public/studios/index.html`, a copy of `standalone.html`, served at `https://hungryshmorez.github.io/Site/studios/`. To publish changes, run `npm run build:standalone`, copy `standalone.html` over `Site/public/studios/index.html`, and merge to Site's `main`.
+- **GitHub Pages for this repo:** you can also turn on Pages here and open `that-time-again-studios/standalone.html`.
 - **Vercel / Netlify:** import the repo, set the root directory to `that-time-again-studios`, build with `npm run build` and output to `dist`. `vercel.json` already rewrites every route to the app.
 
-Hosts that block outside media, such as claude.ai artifact pages, can't stream the songs or episodes. There the players fall back to "Can't play here" or a link to Showrunner.
+Hosts that block outside media, such as claude.ai artifact pages, can't stream the songs or episodes. There the theater, the Records page and the player bar point to the live site (`LIVE_URL` in `src/data/site.ts`) and to Showrunner.

@@ -1,11 +1,12 @@
 import { Link } from '@tanstack/react-router'
 import { ArtistCard } from '../components/ArtistCard'
-import { EpisodePlayer } from '../components/EpisodePlayer'
-import { PosterWall } from '../components/PosterWall'
+import { EpisodeCard, PosterCard, Row } from '../components/Row'
+import { useTheater } from '../components/Theater'
 import { artists, FESTIVAL } from '../data/artists'
-import { getShow, shows } from '../data/shows'
+import { genres, getShow, shows } from '../data/shows'
 
-const FEATURED_EPISODES = [7, 11, 5, 1]
+// Genres with a few shows get their own row; the one-offs share a row at the end.
+const ROW_MIN = 3
 
 const WORLDS = [
   { name: 'SHMOREZ', where: 'In the pit, front-left', url: `${FESTIVAL}shmorez.html` },
@@ -16,8 +17,11 @@ const WORLDS = [
 
 export function HomePage() {
   const flagship = getShow('al-and-sloppy')!
+  const openTheater = useTheater()
   const episodes = flagship.episodes ?? []
-  const featured = FEATURED_EPISODES.map((n) => episodes.find((e) => e.number === n)).filter((e) => e !== undefined)
+  const byGenre = (genre: string) => shows.filter((show) => show.genre === genre)
+  const genreRows = genres.filter((g) => byGenre(g).length >= ROW_MIN).sort((a, b) => byGenre(b).length - byGenre(a).length)
+  const oneOffs = shows.filter((show) => byGenre(show.genre).length < ROW_MIN)
 
   return (
     <main>
@@ -27,7 +31,7 @@ export function HomePage() {
           <p className="label">Stories / Sounds / Worlds / Code</p>
           <h1><img className="hero-logo" src="/brand/studios-logo.webp" alt="That Time Again Studios" /></h1>
           <p className="hero-deck">Television, music, film, code, and strange worlds.</p>
-          <a className="hero-link" href="#slate">See all {shows.length} shows <span>↓</span></a>
+          <a className="hero-link" href="#browse">Start watching <span>↓</span></a>
         </div>
         <p className="hero-caption">Same stories / Different light</p>
       </section>
@@ -44,31 +48,28 @@ export function HomePage() {
           <p className="label">Season one</p>
           <p className="fine">{episodes.length} episodes, streaming from Showrunner. Six characters, six sets, one couch that has seen things.</p>
           <div className="actions">
-            <a className="button" href="#episodes">Watch episode one</a>
+            <button className="button" onClick={() => openTheater(episodes, 0, flagship.title)}>Watch episode one</button>
             <Link className="text-link" to="/shows/$slug" params={{ slug: flagship.slug }}>Episodes &amp; characters →</Link>
           </div>
         </div>
       </section>
 
-      <section className="section" id="episodes">
+      <section className="section browse" id="browse">
         <div className="section-head">
-          <h2>Now playing.</h2>
-          <p className="label">That Time Again with Al &amp; Sloppy / Season one</p>
+          <h2>Browse.</h2>
+          <p className="label">{shows.length} shows / {episodes.length} episodes streaming</p>
         </div>
-        <p className="section-intro">Pulled straight from the broadcast. Press play on any episode — nothing loads from Showrunner until you do.</p>
-        <div className="episode-grid">
-          {featured.map((episode) => <EpisodePlayer key={episode.number} episode={episode} showTitle={flagship.title} />)}
-        </div>
-        <Link className="text-link section-foot" to="/shows/$slug" params={{ slug: flagship.slug }}>All {episodes.length} episodes →</Link>
-      </section>
-
-      <section className="section" id="slate">
-        <div className="section-head">
-          <h2>The slate.</h2>
-          <p className="label">{shows.length} shows in development</p>
-        </div>
-        <p className="section-intro">Every show on the studio’s board — horror, anime, westerns, puppet comedies and whatever Scrambled Porn is. Pick a genre, or open any poster for the full pitch.</p>
-        <PosterWall />
+        <Row id="episodes" title="Now streaming — That Time Again with Al & Sloppy" label="Season one" wide>
+          {episodes.map((episode, i) => <EpisodeCard key={episode.number} episodes={episodes} index={i} showTitle={flagship.title} />)}
+        </Row>
+        {genreRows.map((genre) => (
+          <Row key={genre} title={genre} label={`${byGenre(genre).length} shows`}>
+            {byGenre(genre).map((show) => <PosterCard key={show.slug} show={show} />)}
+          </Row>
+        ))}
+        <Row title="More from the slate" label="Action, crime, romance, westerns and more">
+          {oneOffs.map((show) => <PosterCard key={show.slug} show={show} />)}
+        </Row>
       </section>
 
       <section className="records-band" id="records">
@@ -144,7 +145,7 @@ export function HomePage() {
         <img className="closer-texture" src="/brand/texture.webp" alt="" />
         <p className="label">Ideas in motion</p>
         <h2>Same stories.<br />Different light.</h2>
-        <a className="button" href="#slate">Start with the slate</a>
+        <a className="button" href="#browse">Start browsing</a>
       </section>
     </main>
   )

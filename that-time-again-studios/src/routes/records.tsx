@@ -3,6 +3,7 @@ import { Gallery } from '../components/Gallery'
 import { usePlayer } from '../components/Player'
 import { artists, type Artist } from '../data/artists'
 import { loadAlbums, type Album } from '../data/catalog'
+import { LIVE_URL } from '../data/site'
 
 const PREVIEW = 6
 
@@ -57,9 +58,10 @@ function Discography({ artist }: { artist: Artist }) {
       </div>
       {artist.gallery && <Gallery title={artist.gallery.title} images={artist.gallery.images} artist={artist.name} />}
       {error && (
-        <p className="section-intro">
-          The catalog streams from hungryshmorez.github.io and couldn’t load on this page. Open the site from GitHub Pages to hear everything.
-        </p>
+        <div className="notice">
+          <p>The music streams from the Media site, and this page’s host blocks it. Everything plays on the live site.</p>
+          <a className="button" href={`${LIVE_URL}#/records`} target="_blank" rel="noreferrer">Listen on the live site ↗</a>
+        </div>
       )}
       {albums && (
         <div className="album-grid">
