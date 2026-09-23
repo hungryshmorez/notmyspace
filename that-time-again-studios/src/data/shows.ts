@@ -70,7 +70,7 @@ const extras: Record<string, Partial<Show>> = {
 
 const byTitle = (a: SlateEntry, b: SlateEntry) => a.title.localeCompare(b.title)
 
-// Al & Sloppy leads; the rest of the slate is alphabetical.
+// That Time Again with Al & Sloppy leads; the rest of the slate is alphabetical.
 export const shows: Show[] = [...slate]
   .sort((a, b) => (a.slug === 'al-and-sloppy' ? -1 : b.slug === 'al-and-sloppy' ? 1 : byTitle(a, b)))
   .map((entry) => ({ status: 'In development', ...entry, ...extras[entry.slug] }))

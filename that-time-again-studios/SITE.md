@@ -19,7 +19,7 @@ product-page layout of gxace.com/simulacrum:
 - `/` — logo hero, featured show, four embedded episodes, the slate (poster wall + genre filter), Records,
   the label roster, Worlds & code (The Festival), studio table
 - `/shows/$slug` — every show: poster hero, synopsis, spec table, more from the genre. Shows with a
-  `heroStill` (Al & Sloppy) get the still as the hero, a sticky section bar, episodes, cast and sets.
+  `heroStill` (That Time Again with Al & Sloppy) get the still as the hero, a sticky section bar, episodes, cast and sets.
 - `/records` — every release per artist, loaded live from the Media manifest
 
 ## Music player
@@ -45,7 +45,7 @@ artist's header and opens each image full size in a `<dialog>` (`Gallery.tsx`). 
 
 ## Slate
 `src/data/slate.ts` holds all 43 shows (title, genre, synopsis, poster). `src/data/shows.ts` merges in
-`extras` for shows with more than a pitch, sorts Al & Sloppy first and the rest alphabetically, and
+`extras` for shows with more than a pitch, sorts That Time Again with Al & Sloppy first and the rest alphabetically, and
 exports `genres` for the filter. Posters are 2:3 WebP (≤560px wide) in `public/art/posters/`.
 
 ## Commands

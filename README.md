@@ -33,7 +33,7 @@ YourSpace is a unified, autonomous creator-first ecosystem where human creativit
   - `/yourbrokenspace`: Specialized AI flows and ability library.
   - `/The-YourSpace`: UI/UX evolution and custom theme engine.
   - `/Blaaaahhhhhspace`: Experimental hub for E2E testing and 3D rendering stability.
-- `/that-time-again-studios`: **That Time Again Studios** — the studio site (Vite + React): all 43 shows with their covers, Al & Sloppy's episodes, the full SHMOREZ / Tanky Johnson / DriftWave Static catalogs streamed from the Media site, and links into The Festival world. See its README.
+- `/that-time-again-studios`: **That Time Again Studios** — the studio site (Vite + React): all 43 shows with their covers, That Time Again with Al & Sloppy's episodes, the full SHMOREZ / Tanky Johnson / DriftWave Static catalogs streamed from the Media site, and links into The Festival world. See its README.
 
 ## 🛠️ Setup & Usage
 1. **Explore the Portal**: Open `index.html` in a modern web browser to interact with the live YourSpace platform demo.

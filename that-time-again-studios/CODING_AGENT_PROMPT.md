@@ -6,7 +6,7 @@ Maintain this project as a complete, reproducible Vite + React + TanStack Router
 1. Preserve the visual system described in SITE.md (brand logotypes + burnt film texture, warm charcoal and cream, animated grain, tight Helvetica headlines, mono labels, rounded media cards). Never re-type the logo in a font; use the images in public/brand/.
 2. Do not replace the site with a generic white SaaS layout.
 3. Never hand-edit standalone.html; regenerate it with `npm run build:standalone`.
-4. Keep Al & Sloppy detail content: 11 episodes, 6 characters, 6 sets. Keep all 43 shows on the slate with their posters.
+4. Always call the show by its full name, "That Time Again with Al & Sloppy" (never just "Al & Sloppy"). Keep its detail content: 11 episodes, 6 characters, 6 sets. Keep all 43 shows on the slate with their posters.
 5. Never use truthy numeric lengths to conditionally render links. Use explicit `> 0` checks.
 6. The project must remain runnable from the delivered root with `npm install && npm run build`.
 7. Do not hand-edit generated router output. This rebuild uses a code-defined route tree in `src/router.tsx`, so there is no generated route tree to maintain.
@@ -31,7 +31,7 @@ Data lives in `src/data/shows.ts`. Given a show's Showrunner page source:
    (~800px wide) and save as `public/art/<characters|sets>/<kebab-name>.webp`; reference it as
    `/art/characters/<kebab-name>.webp`. If several shows get galleries, move to per-show folders
    (`public/art/<show-slug>/...`) to avoid filename clashes.
-3. Shape (see Al & Sloppy for a complete example):
+3. Shape (see That Time Again with Al & Sloppy for a complete example):
    `{ number, title, seasonEpisode?, duration?, synopsis?, showrunnerUrl, videoUrl, still, vertical? }` for episodes,
    `{ name, role?, image, description? }` for characters and sets.
 4. The homepage card link and the detail sections appear automatically once any array is non-empty.

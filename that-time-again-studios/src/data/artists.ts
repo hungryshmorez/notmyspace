@@ -37,7 +37,7 @@ export const artists: Artist[] = [
       release: 'Thuggish Ruggish SHMOREZ',
       src: `${MEDIA}shmorez/thuggish-ruggish-shmorez/10%20shhh-dont-wake-her-up.mp3`,
     },
-    onTheShow: 'The DJ on Al & Sloppy — S1 E7',
+    onTheShow: 'The DJ on That Time Again with Al & Sloppy — S1 E7',
     gallery: {
       title: 'Synthetic Human Protocol',
       images: [
@@ -66,7 +66,7 @@ export const artists: Artist[] = [
       release: 'For Mama',
       src: `${MEDIA}tanky/for-momma/11%20Cowboys%20Don%27t%20Cry.mp3`,
     },
-    onTheShow: 'Al & Sloppy react to it in S1 E5',
+    onTheShow: 'Featured on That Time Again with Al & Sloppy — S1 E5',
     mediaFolder: 'tanky',
     links: [
       { label: 'Enter his world', url: 'https://hungryshmorez.github.io/Site/tanky.html' },

@@ -38,7 +38,7 @@ export function HomePage() {
         </div>
         <div className="feature-copy">
           <p className="label">Original series / {flagship.status}</p>
-          <h2>Al &amp; Sloppy</h2>
+          <h2>That Time Again <span className="feature-title-with">with Al &amp; Sloppy</span></h2>
           <p className="lede">{flagship.blurb} The Showrunner keeps the content machine alive while Buffer reports from places nobody should have sent him.</p>
           <hr />
           <p className="label">Season one</p>
@@ -53,7 +53,7 @@ export function HomePage() {
       <section className="section" id="episodes">
         <div className="section-head">
           <h2>Now playing.</h2>
-          <p className="label">Al &amp; Sloppy / Season one</p>
+          <p className="label">That Time Again with Al &amp; Sloppy / Season one</p>
         </div>
         <p className="section-intro">Pulled straight from the broadcast. Press play on any episode — nothing loads from Showrunner until you do.</p>
         <div className="episode-grid">
@@ -133,7 +133,7 @@ export function HomePage() {
           <p className="label">That Time Again Studios</p>
         </div>
         <dl className="spec-table">
-          <div><dt>Television</dt><dd>{shows.length} shows in development. Al &amp; Sloppy, season one, streaming now.</dd></div>
+          <div><dt>Television</dt><dd>{shows.length} shows in development. That Time Again with Al &amp; Sloppy, season one, streaming now.</dd></div>
           <div><dt>Music</dt><dd>That Time Again Records — SHMOREZ, Tanky Johnson and DriftWave Static, with full catalogs on <Link className="inline-link" to="/records">the Records page</Link>.</dd></div>
           <div><dt>Code</dt><dd>Interactive worlds, web apps and games: <a className="inline-link" href={FESTIVAL} target="_blank" rel="noreferrer">The Festival</a>, the DreamOS web-OS, the Wake Up game series, and this site. Source on <a className="inline-link" href="https://github.com/12Matt3r" target="_blank" rel="noreferrer">GitHub</a>.</dd></div>
           <div><dt>Worlds</dt><dd>Stories that spill across mediums: puppets, broken signals, strange humor and places that linger.</dd></div>
