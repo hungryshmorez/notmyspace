@@ -24,6 +24,8 @@ export function HomePage() {
   const byGenre = (genre: string) => shows.filter((show) => show.genre === genre)
   const genreRows = genres.filter((g) => byGenre(g).length >= ROW_MIN).sort((a, b) => byGenre(b).length - byGenre(a).length)
   const oneOffs = shows.filter((show) => byGenre(show.genre).length < ROW_MIN)
+  const streaming = shows.filter((show) => show.slug !== flagship.slug && (show.episodes?.length ?? 0) > 0)
+  const episodeCount = shows.reduce((sum, show) => sum + (show.episodes?.length ?? 0), 0)
 
   return (
     <main>
@@ -59,10 +61,13 @@ export function HomePage() {
       <section className="section browse" id="browse">
         <div className="section-head">
           <h2>Browse.</h2>
-          <p className="label">{shows.length} shows / {episodes.length} episodes streaming</p>
+          <p className="label">{shows.length} shows / {episodeCount} episodes streaming</p>
         </div>
         <Row id="episodes" title="Now streaming — That Time Again with Al & Sloppy" label="Season one" wide>
           {episodes.map((episode, i) => <EpisodeCard key={episode.number} episodes={episodes} index={i} showTitle={flagship.title} />)}
+        </Row>
+        <Row title="Streaming across the slate" label={`${streaming.length} more shows with episodes`} wide>
+          {streaming.map((show) => <EpisodeCard key={show.slug} episodes={show.episodes!} index={0} showTitle={show.title} showLabel />)}
         </Row>
         {genreRows.map((genre) => (
           <Row key={genre} title={genre} label={`${byGenre(genre).length} shows`}>
@@ -146,7 +151,7 @@ export function HomePage() {
           <p className="label">That Time Again Studios</p>
         </div>
         <dl className="spec-table">
-          <div><dt>Television</dt><dd>{shows.length} shows in development. That Time Again with Al &amp; Sloppy, season one, streaming now.</dd></div>
+          <div><dt>Television</dt><dd>{shows.length} shows on the slate, {streaming.length + 1} of them with episodes streaming right here, led by That Time Again with Al &amp; Sloppy.</dd></div>
           <div><dt>Music</dt><dd>That Time Again Records — SHMOREZ, Tanky Johnson and DriftWave Static, with full catalogs on <Link className="inline-link" to="/records">the Records page</Link>.</dd></div>
           <div><dt>Code</dt><dd>Interactive worlds, web apps and games: <a className="inline-link" href={FESTIVAL} target="_blank" rel="noreferrer">The Festival</a>, the DreamOS web-OS, the Wake Up game series, and this site. Source on <a className="inline-link" href="https://github.com/12Matt3r" target="_blank" rel="noreferrer">GitHub</a>.</dd></div>
           <div><dt>Books</dt><dd>{books.length} e-books: novels from the same worlds as the shows, horror, strange fiction and field guides, in <Link className="inline-link" to="/books">the library</Link>.</dd></div>

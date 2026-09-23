@@ -36,7 +36,7 @@ export function ShowDetailPage() {
           <Link className="back-link" to="/" hash="browse">← All shows</Link>
           <p className="label">{show.genre} / {show.status}</p>
           <h1>{show.title}</h1>
-          {first && <button className="hero-link hero-link--button" onClick={playFirst}>Play season one <span>▶</span></button>}
+          {first && <button className="hero-link hero-link--button" onClick={playFirst}>{episodes.length > 1 ? 'Play from episode one' : 'Play the episode'} <span>▶</span></button>}
         </div>
         {!show.heroStill && <div className="poster hero-poster"><img src={show.poster} alt={`${show.title} poster`} /></div>}
         {show.heroCaption && <p className="hero-caption">{show.heroCaption}</p>}
@@ -61,7 +61,7 @@ export function ShowDetailPage() {
           <dl className="spec-table spec-table--compact">
             <div><dt>Genre</dt><dd>{show.genre}</dd></div>
             <div><dt>Status</dt><dd>{show.status}</dd></div>
-            {episodes.length > 0 && <div><dt>Episodes</dt><dd>{episodes.length}, season one</dd></div>}
+            {episodes.length > 0 && <div><dt>Episodes</dt><dd>{episodes.length}</dd></div>}
             {episodes.length > 0 && <div><dt>Streaming</dt><dd>Right here, and on Showrunner</dd></div>}
           </dl>
         </div>
@@ -78,11 +78,11 @@ export function ShowDetailPage() {
       {episodes.length > 0 && (
         <section className="section" id="episodes">
           <div className="section-head">
-            <h2>Season one.</h2>
-            <p className="label">{episodes.length} episodes</p>
+            <h2>{episodes.length > 1 ? 'Episodes.' : 'Watch.'}</h2>
+            <p className="label">{episodes.length} {episodes.length === 1 ? 'episode' : 'episodes'}</p>
           </div>
           <div className="episode-tile-grid">
-            {episodes.map((episode, i) => <EpisodeCard key={episode.number} episodes={episodes} index={i} showTitle={show.title} />)}
+            {episodes.map((episode, i) => <EpisodeCard key={episode.videoUrl} episodes={episodes} index={i} showTitle={show.title} />)}
           </div>
         </section>
       )}

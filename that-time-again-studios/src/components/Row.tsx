@@ -36,7 +36,7 @@ export function PosterCard({ show }: { show: Show }) {
   )
 }
 
-export function EpisodeCard({ episodes, index, showTitle }: { episodes: Episode[]; index: number; showTitle: string }) {
+export function EpisodeCard({ episodes, index, showTitle, showLabel }: { episodes: Episode[]; index: number; showTitle: string; showLabel?: boolean }) {
   const openTheater = useTheater()
   const episode = episodes[index]
   return (
@@ -46,7 +46,7 @@ export function EpisodeCard({ episodes, index, showTitle }: { episodes: Episode[
         <span className="play-icon" aria-hidden="true" />
         {episode.duration && <span className="episode-duration">{episode.duration}</span>}
       </div>
-      <span className="episode-tile-no">{episode.seasonEpisode}</span>
+      <span className="episode-tile-no">{showLabel ? showTitle : episode.seasonEpisode}</span>
       <span className="episode-tile-title">{episode.title}</span>
     </button>
   )

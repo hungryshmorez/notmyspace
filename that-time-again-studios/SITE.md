@@ -45,6 +45,13 @@ with cover, blurb, contents, Read / Download and an "On the slate" link to the r
 served from `LIVE_URL/books/<slug>.pdf` (Site repo). Show pages with a related book get a "Read the
 book" row; the homepage has a "From the library" row.
 
+## Episodes across the slate
+`src/data/episodes.ts` (`slateEpisodes`, keyed by slate slug) holds every episode on Showrunner for the
+other slate shows; `shows.ts` attaches them (`episodes ??= slateEpisodes[slug]`) and marks those shows
+"Streaming now". Episodes are numbered in broadcast order, with Showrunner's own S/E label shown.
+The home page adds a "Streaming across the slate" row (each show's first episode, labelled with the
+show). `data/showrunner/` is the full raw export these came from.
+
 ## Browse rows
 `src/components/Row.tsx` is the Netflix-style row: a single scroll-snapped line of cards that bleeds
 to the page edge, with ‹ › buttons on wide screens (hidden on phones, where you swipe). The home page

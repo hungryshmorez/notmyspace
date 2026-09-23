@@ -53,3 +53,10 @@ Never copy the music catalog into this repo: it is read live from the Media mani
 3. Add the entry to `src/data/books.ts`; write the description from the book itself, never invent plot.
 4. Copy the PDF to the Site repo as `public/studios/books/<slug>.pdf` (that's where `pdf()` points).
 
+## Episodes for other shows
+Episodes for every slate show except That Time Again with Al & Sloppy live in `src/data/episodes.ts`,
+keyed by the slate slug. `data/showrunner/` holds the full export (shows, episodes, scenes, characters,
+sets). To refresh: fetch `https://www.showrunnerstudio.com/shows/<showrunner-slug>/episodes`, parse the
+episode objects by `id` (never by position in the HTML), download `preview_image_url` as the still into
+`public/art/episodes/<slate-slug>-<first 8 chars of id>.webp`, and set `vertical` from the still's shape.
+
