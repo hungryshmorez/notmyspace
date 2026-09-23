@@ -13,7 +13,7 @@ Maintain this project as a complete, reproducible Vite + React + TanStack Router
 8. Local image assets belong in `public/art`.
 9. Before claiming success, run `npm run typecheck` and `npm run build`.
 10. Never invent episode, character or set data. If real data isn't available, leave the array empty.
-11. After content changes, run `npm run build:standalone` so `standalone.html` stays in sync.
+11. After content changes, run `npm run build:standalone` so `standalone.html` stays in sync, and `npm run build:site` for the live copy in the Site repo (`public/studios/`).
 
 ## Adding another show's episodes / characters / sets
 

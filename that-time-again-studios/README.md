@@ -49,7 +49,8 @@ npm install
 npm run dev                # local dev server
 npm run typecheck
 npm run build              # production build → dist/
-npm run build:standalone   # regenerate standalone.html
+npm run build:standalone   # regenerate standalone.html (single file, images inlined)
+npm run build:site         # site-build/ for the live copy in the Site repo
 ```
 
 Stack: Vite, React 19, TanStack Router (code-defined route tree in `src/router.tsx`) and TypeScript. The design system is described in `SITE.md`.
@@ -62,7 +63,7 @@ Stack: Vite, React 19, TanStack Router (code-defined route tree in `src/router.t
 
 This folder is self-contained inside the notmyspace repo.
 
-- **Live site (Site repo):** the Site repo already deploys to GitHub Pages on every push to `main`. The studio site lives there as `public/studios/index.html`, a copy of `standalone.html`, served at `https://hungryshmorez.github.io/Site/studios/`, with the e-book PDFs next to it in `public/studios/books/`. To publish changes, run `npm run build:standalone`, copy `standalone.html` over `Site/public/studios/index.html`, and merge to Site's `main`.
+- **Live site (Site repo):** the Site repo already deploys to GitHub Pages on every push to `main`. The studio site lives there in `public/studios/`, served at `https://hungryshmorez.github.io/Site/studios/`: `index.html` plus `art/` and `brand/` from `npm run build:site` (JS and CSS inlined, images as separate files so the page loads fast), with the e-book PDFs in `public/studios/books/`. To publish changes, run `npm run build:site`, copy `site-build/*` into `Site/public/studios/` (replacing `index.html`, `art/` and `brand/`, and keeping `books/`), and merge to Site's `main`.
 - **GitHub Pages for this repo:** you can also turn on Pages here and open `that-time-again-studios/standalone.html`.
 - **Vercel / Netlify:** import the repo, set the root directory to `that-time-again-studios`, build with `npm run build` and output to `dist`. `vercel.json` already rewrites every route to the app.
 
