@@ -1,52 +1,67 @@
-# That Time Again Studios — Rebuilt
+# That Time Again Studios
 
-This package is a clean reconstruction of the That Time Again Studios site from the available design material and project audit.
+The home of That Time Again Studios: television, music, film, code and strange worlds.
 
-## Included
+- **Shows**: all 43 shows on the slate, browsed in Netflix-style rows by genre, each with its own page
+- **Episodes**: *That Time Again with Al & Sloppy*, season one. All 11 episodes play right on the site, in a theater player that rolls on to the next episode.
+- **Records**: That Time Again Records. The full catalogs of SHMOREZ, Tanky Johnson and DriftWave Static (184 tracks across 11 releases) play on the site.
+- **Books**: the library of 30 e-books. Each has its cover, description and contents, and you can read it in the browser or download the PDF. Books from the same worlds as the shows link to them.
+- **Worlds & code**: The Festival, our walkable 3D night festival, plus the artist worlds inside it and the rest of what we build
 
-- Complete Vite + React + TanStack Router project root
-- `package.json`, `vite.config.ts`, `tsconfig.json`, `vercel.json`
-- code-defined TanStack route tree (no hand-edited generated route file)
-- homepage in the charcoal / film-grain cinematic look (see SITE.md)
-- Al & Sloppy show-detail page
-- 11 episodes embedded as click-to-play video (Showrunner MP4s), plus Showrunner links
-- 6 character entries with local WebP artwork
-- 6 set entries with local WebP artwork
-- explicit `> 0` checks, so empty arrays do not render a stray `0`
-- `CODING_AGENT_PROMPT.md`
-- `SITE.md`
-- self-contained `standalone.html`
+Live: **https://hungryshmorez.github.io/Site/studios/**. It's published through the Site repo's GitHub Pages; see Deploy.
+
+## What's on the site
+
+| Page | What it has |
+|------|-------------|
+| `/` | Logo hero, the That Time Again with Al & Sloppy feature, **Browse**: a "Now streaming" row with all 11 episodes, then one sideways-scrolling row of posters per genre (Sci-Fi, Comedy, Horror, Anime, Drama, Family, Fantasy, and "More from the slate"). Then Records, the label roster, Worlds & code, and what we make. |
+| `/shows/<slug>` | Every show has a page with its poster, genre, status, full synopsis and more shows from the same genre. That Time Again with Al & Sloppy's page adds Play season one, all 11 episodes, the cast and the sets. |
+| `/books` | The library: one row per shelf (When Ocean Meets Sky, From the slate, Horror & the uncanny, Strange fiction, Music & the scene, AI & creative craft, Love & relationships, Landscaping manuals). Opening a book shows its cover, description, page count, contents, Read and Download, and a link to its show if it has one. |
+| `/records` | Every album by every label artist, with Play album, Play everything and per-track play. Links to each artist's world at the festival and to their press kit. |
+
+Clicking any episode opens the **theater**, a large player over the page with previous and next episode buttons. It plays the next episode automatically, and Escape or a click outside closes it. A **player bar** at the bottom of the page keeps music going while you browse, with previous, play/pause, next and seek. Only one song or episode plays at a time.
+
+## Where the content comes from
+
+| Content | Source | Notes |
+|---------|--------|-------|
+| Show slate (titles, genres, synopses) | `src/data/slate.ts` | Transcribed from the pitch documents. Covers are in `public/art/posters/`. |
+| That Time Again with Al & Sloppy episodes, cast, sets | `src/data/shows.ts` (`extras`) | The videos are Showrunner's MP4s. Stills, characters and sets are in `public/art/`. |
+| Music catalog | **The Media site**: `https://hungryshmorez.github.io/Media/manifest.json` | Read live when the page loads (`src/data/catalog.ts`). Anything uploaded to the Media repo under `music/shmorez/`, `music/tanky/` or `music/driftwave/` appears on the Records page with no rebuild. The album comes from the manifest's `album` field; tracks without one are grouped as Singles. |
+| Artist bios, photos, galleries, featured tracks, links | `src/data/artists.ts` | Bios are condensed from each artist's EPK on the festival site. Gallery images are in `public/art/artists/<slug>/` (SHMOREZ: Synthetic Human Protocol). |
+| E-books | `src/data/books.ts` | Descriptions are written from each book. Covers are page 1 of the PDF, in `public/art/books/`. The PDFs are published with the live site, in the Site repo's `public/studios/books/<slug>.pdf`. |
+| The Festival and the artist worlds | **The Site repo**: `https://hungryshmorez.github.io/Site/` | Linked from the header ("Enter the festival"), the Worlds section and each artist's links. |
+
+## Adding things
+
+- **A new song or album:** add it to the Media repo and its `manifest.json` (`src`, `title`, `album`). It shows up on the Records page automatically.
+- **A new artist:** add an entry to `src/data/artists.ts`, with `mediaFolder` set to their folder under `music/` in Media. Then add a photo to `public/art/artists/`.
+- **A new show:** add an entry to `src/data/slate.ts`, and put its poster (2:3, WebP) in `public/art/posters/`.
+- **A new e-book:** add an entry to `src/data/books.ts` (slug, title, shelf, description, pages, chapters; set `show` to link a show, and `mature` for an 18+ badge). Put page 1 as a WebP cover in `public/art/books/<slug>.webp`, and the PDF in the Site repo at `public/studios/books/<slug>.pdf`.
+- **Episodes, cast or sets for a show:** add them under that show's slug in `extras` in `src/data/shows.ts`. `CODING_AGENT_PROMPT.md` has the step-by-step recipe for pulling these from Showrunner.
 
 ## Run
 
 ```bash
 npm install
+npm run dev                # local dev server
 npm run typecheck
-npm run build
-npm run dev
+npm run build              # production build → dist/
 npm run build:standalone   # regenerate standalone.html
 ```
 
-## Standalone file
+Stack: Vite, React 19, TanStack Router (code-defined route tree in `src/router.tsx`) and TypeScript. The design system is described in `SITE.md`.
 
-`standalone.html` is generated from the real app by `npm run build:standalone` (JS, CSS and every
-`public/` asset inlined, hash routing so the detail page works from `file://`). Regenerate it after
-any content change instead of editing it by hand.
+## standalone.html
 
-## Content
-
-Al & Sloppy's episodes, characters and sets are the real Showrunner data: episode titles, runtimes
-and per-episode Showrunner URLs, and the original character/set artwork in `public/art/`.
-
-The earlier full slate (44 shows with posters) is not in this rebuild; the homepage currently features
-Al & Sloppy, Channel 86 and Records only.
+`standalone.html` is the whole site in one file. `npm run build:standalone` builds it from the real app: the JS, CSS and every image are inlined, and routing uses the URL hash, so it works from any host or straight from disk. Regenerate it after any content change; don't edit it by hand. Music and episodes stream from the Media site and Showrunner, so they need an internet connection.
 
 ## Deploy
 
 This folder is self-contained inside the notmyspace repo.
 
-- **Vercel / Netlify:** import the repo and set the project's root directory to `that-time-again-studios`
-  (build `npm run build`, output `dist`). `vercel.json` already rewrites all routes to the SPA.
-- **Anywhere, no build:** `standalone.html` is the whole site in one file and works from any URL or
-  straight from disk.
+- **Live site (Site repo):** the Site repo already deploys to GitHub Pages on every push to `main`. The studio site lives there as `public/studios/index.html`, a copy of `standalone.html`, served at `https://hungryshmorez.github.io/Site/studios/`, with the e-book PDFs next to it in `public/studios/books/`. To publish changes, run `npm run build:standalone`, copy `standalone.html` over `Site/public/studios/index.html`, and merge to Site's `main`.
+- **GitHub Pages for this repo:** you can also turn on Pages here and open `that-time-again-studios/standalone.html`.
+- **Vercel / Netlify:** import the repo, set the root directory to `that-time-again-studios`, build with `npm run build` and output to `dist`. `vercel.json` already rewrites every route to the app.
 
+Hosts that block outside media, such as claude.ai artifact pages, can't stream the songs or episodes. There the theater, the Records page and the player bar point to the live site (`LIVE_URL` in `src/data/site.ts`) and to Showrunner.

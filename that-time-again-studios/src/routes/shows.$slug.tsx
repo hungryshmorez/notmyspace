@@ -1,9 +1,13 @@
 import { Link, useParams } from '@tanstack/react-router'
-import { EpisodePlayer } from '../components/EpisodePlayer'
-import { getShow, type GalleryItem } from '../data/shows'
+import { BookCard } from '../components/Books'
+import { EpisodeCard, PosterCard, Row } from '../components/Row'
+import { useTheater } from '../components/Theater'
+import { books } from '../data/books'
+import { getShow, shows, type GalleryItem } from '../data/shows'
 
 export function ShowDetailPage() {
   const { slug } = useParams({ from: '/shows/$slug' })
+  const openTheater = useTheater()
   const show = getShow(slug)
 
   if (!show) {
@@ -11,7 +15,7 @@ export function ShowDetailPage() {
       <main className="missing">
         <p className="label">404 / Off the air</p>
         <h1>Show not found.</h1>
-        <Link className="button" to="/">Back to the studio</Link>
+        <Link className="button" to="/" hash="browse">See every show</Link>
       </main>
     )
   }
@@ -20,38 +24,56 @@ export function ShowDetailPage() {
   const characters = show.characters ?? []
   const sets = show.sets ?? []
   const first = episodes[0]
+  const related = shows.filter((s) => s.genre === show.genre && s.slug !== show.slug)
+  const playFirst = () => openTheater(episodes, 0, show.title)
+  const reading = books.filter((book) => book.show === show.slug)
 
   return (
     <main>
-      <section className={`hero hero--show${show.heroStill ? '' : ' hero--plain'}`}>
-        {show.heroStill && <img className="hero-still" src={show.heroStill} alt="" />}
+      <section className={`hero hero--show${show.heroStill ? '' : ' hero--poster'}`}>
+        <img className={show.heroStill ? 'hero-still' : 'hero-still hero-still--poster'} src={show.heroStill ?? show.poster} alt="" />
         <div className="hero-copy">
-          <Link className="back-link" to="/" hash="slate">← The slate</Link>
+          <Link className="back-link" to="/" hash="browse">← All shows</Link>
+          <p className="label">{show.genre} / {show.status}</p>
           <h1>{show.title}</h1>
-          {episodes.length > 0 && <a className="hero-link" href="#episodes">Watch season one <span>↓</span></a>}
+          {first && <button className="hero-link hero-link--button" onClick={playFirst}>Play season one <span>▶</span></button>}
         </div>
+        {!show.heroStill && <div className="poster hero-poster"><img src={show.poster} alt={`${show.title} poster`} /></div>}
         {show.heroCaption && <p className="hero-caption">{show.heroCaption}</p>}
       </section>
 
-      <nav className="subnav" aria-label={`${show.title} sections`}>
-        <span className="subnav-title"><span className="label">{show.eyebrow}</span> {show.title}</span>
-        <div className="subnav-links">
-          {episodes.length > 0 && <a href="#episodes">Episodes</a>}
-          {characters.length > 0 && <a href="#characters">Characters</a>}
-          {sets.length > 0 && <a href="#sets">Sets</a>}
-        </div>
-        {first && <a className="button button--small" href="#episodes">Watch {first.seasonEpisode ?? 'episode one'}</a>}
-      </nav>
+      {first && (
+        <nav className="subnav" aria-label={`${show.title} sections`}>
+          <span className="subnav-title">{show.title}</span>
+          <div className="subnav-links">
+            <a href="#episodes">Episodes</a>
+            {characters.length > 0 && <a href="#characters">Characters</a>}
+            {sets.length > 0 && <a href="#sets">Sets</a>}
+          </div>
+          <button className="button button--small" onClick={playFirst}>Play {first.seasonEpisode ?? 'episode one'}</button>
+        </nav>
+      )}
 
-      <section className="section show-intro">
-        <p className="lede">{show.longDescription}</p>
-        <dl className="spec-table spec-table--compact">
-          <div><dt>Format</dt><dd>{show.eyebrow.toLowerCase()}</dd></div>
-          <div><dt>Status</dt><dd>{show.status.toLowerCase()}</dd></div>
-          {episodes.length > 0 && <div><dt>Episodes</dt><dd>{episodes.length}, season one</dd></div>}
-          {episodes.length > 0 && <div><dt>Streaming</dt><dd>Showrunner</dd></div>}
-        </dl>
+      <section className={`section show-intro${show.heroStill ? '' : ' show-intro--text'}`}>
+        {show.heroStill && <div className="poster show-poster"><img src={show.poster} alt={`${show.title} poster`} /></div>}
+        <div>
+          <p className="lede">{show.description}</p>
+          <dl className="spec-table spec-table--compact">
+            <div><dt>Genre</dt><dd>{show.genre}</dd></div>
+            <div><dt>Status</dt><dd>{show.status}</dd></div>
+            {episodes.length > 0 && <div><dt>Episodes</dt><dd>{episodes.length}, season one</dd></div>}
+            {episodes.length > 0 && <div><dt>Streaming</dt><dd>Right here, and on Showrunner</dd></div>}
+          </dl>
+        </div>
       </section>
+
+      {reading.length > 0 && (
+        <div className="section">
+          <Row title={reading.length === 1 ? 'Read the book' : 'Read the books'} label={`${reading.length} from the library`}>
+            {reading.map((book) => <BookCard key={book.slug} book={book} />)}
+          </Row>
+        </div>
+      )}
 
       {episodes.length > 0 && (
         <section className="section" id="episodes">
@@ -59,8 +81,8 @@ export function ShowDetailPage() {
             <h2>Season one.</h2>
             <p className="label">{episodes.length} episodes</p>
           </div>
-          <div className="episode-grid">
-            {episodes.map((episode) => <EpisodePlayer key={episode.number} episode={episode} showTitle={show.title} />)}
+          <div className="episode-tile-grid">
+            {episodes.map((episode, i) => <EpisodeCard key={episode.number} episodes={episodes} index={i} showTitle={show.title} />)}
           </div>
         </section>
       )}
@@ -87,6 +109,15 @@ export function ShowDetailPage() {
             {sets.map((item) => <AssetCard key={item.name} {...item} />)}
           </div>
         </section>
+      )}
+
+      {related.length > 0 && (
+        <div className="section">
+          <Row title={`More ${show.genre.toLowerCase()}`} label={`${related.length} shows`}>
+            {related.map((s) => <PosterCard key={s.slug} show={s} />)}
+          </Row>
+          <Link className="text-link section-foot" to="/" hash="browse">Browse all {shows.length} shows →</Link>
+        </div>
       )}
     </main>
   )
