@@ -2,17 +2,31 @@ import { useState } from 'react'
 import type { Episode } from '../data/shows'
 
 // Poster first; the Showrunner video only loads once someone presses play.
+// If the browser or host can't load it, the card falls back to a link to Showrunner.
 export function EpisodePlayer({ episode, showTitle }: { episode: Episode; showTitle: string }) {
-  const [playing, setPlaying] = useState(false)
+  const [state, setState] = useState<'idle' | 'playing' | 'failed'>('idle')
   const label = [episode.seasonEpisode, episode.duration].filter(Boolean).join(' · ')
 
   return (
     <article className="episode-card">
       <div className={`player${episode.vertical ? ' player--vertical' : ''}`}>
-        {playing ? (
-          <video src={episode.videoUrl} poster={episode.still} controls autoPlay playsInline preload="auto" />
+        {state === 'playing' ? (
+          <video
+            src={episode.videoUrl}
+            poster={episode.still}
+            controls
+            autoPlay
+            playsInline
+            preload="auto"
+            onError={() => setState('failed')}
+          />
+        ) : state === 'failed' ? (
+          <a className="player-poster player-poster--fallback" href={episode.showrunnerUrl} target="_blank" rel="noreferrer">
+            <img src={episode.still} alt="" />
+            <span className="player-fallback">Watch on Showrunner ↗</span>
+          </a>
         ) : (
-          <button className="player-poster" onClick={() => setPlaying(true)} aria-label={`Play ${episode.title}`}>
+          <button className="player-poster" onClick={() => setState('playing')} aria-label={`Play ${episode.title}`}>
             <img src={episode.still} alt="" loading="lazy" />
             <span className="play-icon" aria-hidden="true" />
           </button>
