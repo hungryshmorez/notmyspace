@@ -30,15 +30,21 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
   const current = queue[index]
   const hasNext = index < queue.length - 1
 
-  // Load and start whichever track is current.
-  useEffect(() => {
+  // Start a track right inside the tap/click that asked for it: iOS Safari only allows audio
+  // to begin from a user gesture, so this can't wait for a React effect.
+  const start = (list: Track[], at: number) => {
     const el = audio.current
-    if (!el || !current) return
+    const track = list[at]
+    if (!el || !track) return
+    setQueue(list)
+    setIndex(at)
     setFailed(false)
     setProgress(0)
-    el.src = current.src
-    el.play().catch(() => {})
-  }, [current])
+    el.src = track.src
+    el.play().catch((error: DOMException) => {
+      if (error.name !== 'AbortError') setFailed(true)
+    })
+  }
 
   useEffect(() => {
     const el = audio.current
@@ -68,14 +74,13 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
   const toggle = () => {
     const el = audio.current
     if (!el || !current) return
-    if (el.paused) el.play().catch(() => setFailed(true))
+    if (el.paused) el.play().catch((error: DOMException) => { if (error.name !== 'AbortError') setFailed(true) })
     else el.pause()
   }
 
   const play = (list: Track[], at = 0) => {
     if (isCurrent(list[at])) return toggle()
-    setQueue(list)
-    setIndex(at)
+    start(list, at)
   }
 
   const step = (by: number) => {
@@ -84,7 +89,8 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
       el.currentTime = 0
       return
     }
-    setIndex((i) => Math.min(Math.max(i + by, 0), queue.length - 1))
+    const next = Math.min(Math.max(index + by, 0), queue.length - 1)
+    if (next !== index) start(queue, next)
   }
 
   const close = () => {
@@ -102,7 +108,7 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
   return (
     <PlayerContext.Provider value={{ current, playing, failed, isCurrent, play, toggle }}>
       {children}
-      <audio ref={audio} preload="none" onEnded={() => (hasNext ? setIndex(index + 1) : setPlaying(false))} />
+      <audio ref={audio} preload="none" onEnded={() => (hasNext ? start(queue, index + 1) : setPlaying(false))} />
       {current && (
         <div className="player-bar" role="region" aria-label="Now playing">
           <div className="player-bar-controls">

@@ -22,6 +22,7 @@ product-page layout of gxace.com/simulacrum:
   `heroStill` (That Time Again with Al & Sloppy) get the still as the hero, a sticky section bar, episodes, cast and sets.
 - `/records` — every release per artist, loaded live from the Media manifest
 - `/books` — the e-book library, one row per shelf
+- `/store` — Etsy, commissions, collectibles, tip jar
 
 ## Music player
 `src/components/Player.tsx` owns a single `<audio>` for the whole site (`PlayerProvider` wraps the
@@ -36,6 +37,16 @@ episode's MP4 from Showrunner's CDN (`videoUrl` in `src/data/shows.ts`) in a mod
 16:9 screen (vertical episodes letterboxed), title, S/E, runtime, synopsis, previous / next, and
 auto-advance on `ended`. If the video can't load, it shows the still with links to the live site and
 Showrunner. `EpisodeCard` (in `Row.tsx`) is the landscape tile that opens it.
+
+## Watching on show pages
+`ShowPlayer.tsx` is the show page's own player: a `<video>` that stays mounted (so a tap starts it
+with sound on iOS Safari), a "Now playing" panel, and `PlayTile`s for episodes and clips (`clips.ts`)
+that call `play(list, index)` and roll on to the next item. The theater (`Theater.tsx`) is still used
+from the homepage rows. Both start playback inside the tap, never from an effect.
+
+## Store
+`/store` (`routes/store.tsx`, links in `data/store.ts`): Etsy (the Merch Tent's shop), commission
+packages, collectibles, Bandcamp (from `artists.ts` links) and the tip jar.
 
 ## Library
 `src/data/books.ts` lists the 30 e-books (title, subtitle, shelf, description, page count, chapters from

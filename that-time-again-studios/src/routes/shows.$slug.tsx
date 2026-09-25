@@ -1,13 +1,17 @@
+import { useRef } from 'react'
 import { Link, useParams } from '@tanstack/react-router'
 import { BookCard } from '../components/Books'
-import { EpisodeCard, PosterCard, Row } from '../components/Row'
-import { useTheater } from '../components/Theater'
+import { PosterCard, Row } from '../components/Row'
+import { PlayTile, ShowPlayer, type Playable, type ShowPlayerHandle } from '../components/ShowPlayer'
 import { books } from '../data/books'
+import { clips } from '../data/clips'
 import { getShow, shows, type GalleryItem } from '../data/shows'
+
+const clock = (seconds: number) => `${Math.floor(seconds / 60)}:${String(seconds % 60).padStart(2, '0')}`
 
 export function ShowDetailPage() {
   const { slug } = useParams({ from: '/shows/$slug' })
-  const openTheater = useTheater()
+  const player = useRef<ShowPlayerHandle>(null)
   const show = getShow(slug)
 
   if (!show) {
@@ -20,13 +24,30 @@ export function ShowDetailPage() {
     )
   }
 
-  const episodes = show.episodes ?? []
+  const episodes: Playable[] = (show.episodes ?? []).map((episode) => ({
+    title: episode.title,
+    label: [episode.seasonEpisode, episode.duration].filter(Boolean).join(' · '),
+    synopsis: episode.synopsis,
+    videoUrl: episode.videoUrl,
+    still: episode.still,
+    vertical: episode.vertical,
+    sourceUrl: episode.showrunnerUrl,
+  }))
+  const showClips: Playable[] = (clips[show.slug] ?? []).map((clip) => ({
+    title: clip.title,
+    label: clip.seconds ? clock(clip.seconds) : undefined,
+    synopsis: clip.description,
+    videoUrl: clip.videoUrl,
+    still: clip.thumb,
+    vertical: clip.vertical,
+    credit: clip.creator ? `Made by ${clip.creator}` : undefined,
+  }))
+  const first = episodes[0] ?? showClips[0]
   const characters = show.characters ?? []
   const sets = show.sets ?? []
-  const first = episodes[0]
   const related = shows.filter((s) => s.genre === show.genre && s.slug !== show.slug)
-  const playFirst = () => openTheater(episodes, 0, show.title)
   const reading = books.filter((book) => book.show === show.slug)
+  const playFirst = () => player.current?.play(episodes.length ? episodes : showClips, 0)
 
   return (
     <main>
@@ -36,7 +57,11 @@ export function ShowDetailPage() {
           <Link className="back-link" to="/" hash="browse">← All shows</Link>
           <p className="label">{show.genre} / {show.status}</p>
           <h1>{show.title}</h1>
-          {first && <button className="hero-link hero-link--button" onClick={playFirst}>{episodes.length > 1 ? 'Play from episode one' : 'Play the episode'} <span>▶</span></button>}
+          {first && (
+            <button className="hero-link hero-link--button" onClick={playFirst}>
+              {episodes.length > 1 ? 'Play from episode one' : episodes.length ? 'Play the episode' : 'Play the clips'} <span>▶</span>
+            </button>
+          )}
         </div>
         {!show.heroStill && <div className="poster hero-poster"><img src={show.poster} alt={`${show.title} poster`} /></div>}
         {show.heroCaption && <p className="hero-caption">{show.heroCaption}</p>}
@@ -46,12 +71,40 @@ export function ShowDetailPage() {
         <nav className="subnav" aria-label={`${show.title} sections`}>
           <span className="subnav-title">{show.title}</span>
           <div className="subnav-links">
-            <a href="#episodes">Episodes</a>
+            <a href="#watch">Watch</a>
+            {episodes.length > 0 && <a href="#episodes">Episodes</a>}
+            {showClips.length > 0 && <a href="#clips">Clips</a>}
             {characters.length > 0 && <a href="#characters">Characters</a>}
             {sets.length > 0 && <a href="#sets">Sets</a>}
           </div>
-          <button className="button button--small" onClick={playFirst}>Play {first.seasonEpisode ?? 'episode one'}</button>
+          <button className="button button--small" onClick={playFirst}>Play</button>
         </nav>
+      )}
+
+      {first && (
+        <section className="section watch" id="watch">
+          <ShowPlayer key={show.slug} ref={player} first={first} showTitle={show.title} />
+
+          {episodes.length > 0 && (
+            <div className="watch-list" id="episodes">
+              <div className="row-head">
+                <h3>Episodes</h3>
+                <span className="label">{episodes.length} {episodes.length === 1 ? 'episode' : 'episodes'}</span>
+              </div>
+              <div className="episode-tile-grid">
+                {episodes.map((item, i) => <PlayTile key={item.videoUrl} item={item} onPlay={() => player.current?.play(episodes, i)} />)}
+              </div>
+            </div>
+          )}
+
+          {showClips.length > 0 && (
+            <div id="clips">
+              <Row title="Clips" label={`${showClips.length} scenes`} wide>
+                {showClips.map((item, i) => <PlayTile key={item.videoUrl} item={item} onPlay={() => player.current?.play(showClips, i)} />)}
+              </Row>
+            </div>
+          )}
+        </section>
       )}
 
       <section className={`section show-intro${show.heroStill ? '' : ' show-intro--text'}`}>
@@ -62,7 +115,7 @@ export function ShowDetailPage() {
             <div><dt>Genre</dt><dd>{show.genre}</dd></div>
             <div><dt>Status</dt><dd>{show.status}</dd></div>
             {episodes.length > 0 && <div><dt>Episodes</dt><dd>{episodes.length}</dd></div>}
-            {episodes.length > 0 && <div><dt>Streaming</dt><dd>Right here, and on Showrunner</dd></div>}
+            {showClips.length > 0 && <div><dt>Clips</dt><dd>{showClips.length}</dd></div>}
           </dl>
         </div>
       </section>
@@ -73,18 +126,6 @@ export function ShowDetailPage() {
             {reading.map((book) => <BookCard key={book.slug} book={book} />)}
           </Row>
         </div>
-      )}
-
-      {episodes.length > 0 && (
-        <section className="section" id="episodes">
-          <div className="section-head">
-            <h2>{episodes.length > 1 ? 'Episodes.' : 'Watch.'}</h2>
-            <p className="label">{episodes.length} {episodes.length === 1 ? 'episode' : 'episodes'}</p>
-          </div>
-          <div className="episode-tile-grid">
-            {episodes.map((episode, i) => <EpisodeCard key={episode.videoUrl} episodes={episodes} index={i} showTitle={show.title} />)}
-          </div>
-        </section>
       )}
 
       {characters.length > 0 && (

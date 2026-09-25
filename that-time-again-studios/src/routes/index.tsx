@@ -155,6 +155,7 @@ export function HomePage() {
           <div><dt>Music</dt><dd>That Time Again Records — SHMOREZ, Tanky Johnson and DriftWave Static, with full catalogs on <Link className="inline-link" to="/records">the Records page</Link>.</dd></div>
           <div><dt>Code</dt><dd>Interactive worlds, web apps and games: <a className="inline-link" href={FESTIVAL} target="_blank" rel="noreferrer">The Festival</a>, the DreamOS web-OS, the Wake Up game series, and this site. Source on <a className="inline-link" href="https://github.com/12Matt3r" target="_blank" rel="noreferrer">GitHub</a>.</dd></div>
           <div><dt>Books</dt><dd>{books.length} e-books: novels from the same worlds as the shows, horror, strange fiction and field guides, in <Link className="inline-link" to="/books">the library</Link>.</dd></div>
+          <div><dt>Store</dt><dd>Merch, prints and commissions on Etsy, collectibles, and a tip jar — all in <Link className="inline-link" to="/store">the store</Link>.</dd></div>
           <div><dt>Worlds</dt><dd>Stories that spill across mediums: puppets, broken signals, strange humor and places that linger.</dd></div>
         </dl>
       </section>
