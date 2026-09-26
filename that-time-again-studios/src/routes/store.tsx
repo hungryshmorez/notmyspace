@@ -1,7 +1,7 @@
 import { Link } from '@tanstack/react-router'
 import { artists } from '../data/artists'
 import { books } from '../data/books'
-import { collectibles, commissions, ETSY, support } from '../data/store'
+import { collectibles, commissions, ETSY, SHOP_BACKUP_URL, SHOP_URL, support } from '../data/store'
 
 export function StorePage() {
   const bandcamp = artists.flatMap((artist) => artist.links.filter((link) => /bandcamp/i.test(link.url)).map((link) => ({ ...link, artist: artist.name })))
@@ -15,10 +15,14 @@ export function StorePage() {
           <h1 className="library-title">The store.</h1>
           <p>Merch, prints and commissions from the studio, plus collectibles, music and a tip jar. Every purchase keeps the shows, records and worlds coming.</p>
           <div className="actions store-hero-actions">
-            <a className="button" href={ETSY} target="_blank" rel="noreferrer">Shop on Etsy ↗</a>
+            <a className="button" href={SHOP_URL} target="_blank" rel="noreferrer">Shop the store ↗</a>
             <a className="text-link" href="#commissions">Commissions</a>
             <a className="text-link" href="#support">Tip jar</a>
           </div>
+          <p className="label store-hero-note">
+            doesntmatter.store not loading yet? Try the shop directly at{' '}
+            <a className="inline-link" href={SHOP_BACKUP_URL} target="_blank" rel="noreferrer">12matt3r.myshopify.com ↗</a>
+          </p>
         </div>
       </section>
 
@@ -27,13 +31,13 @@ export function StorePage() {
           <h2>Commissions.</h2>
           <p className="label">Made by the studio, for you</p>
         </div>
-        <p className="section-intro">Productized packages with a clear scope. Request one through the Etsy shop and we’ll take it from there, NDA included when you need it.</p>
+        <p className="section-intro">Productized packages with a clear scope. Request one through the store and we’ll take it from there, NDA included when you need it.</p>
         <div className="store-grid">
           {commissions.map((item) => (
             <article className="store-card" key={item.name}>
               <h3>{item.name}</h3>
               <p>{item.body}</p>
-              <a className="text-link" href={ETSY} target="_blank" rel="noreferrer">Request on Etsy ↗</a>
+              <a className="text-link" href={SHOP_URL} target="_blank" rel="noreferrer">Request in the store ↗</a>
             </article>
           ))}
         </div>
@@ -45,6 +49,8 @@ export function StorePage() {
           <p className="label">Collectibles / Music / Books</p>
         </div>
         <dl className="spec-table">
+          <div><dt>Store</dt><dd>The Shopify shop — <a className="inline-link" href={SHOP_URL} target="_blank" rel="noreferrer">doesntmatter.store ↗</a> (mirror: <a className="inline-link" href={SHOP_BACKUP_URL} target="_blank" rel="noreferrer">12matt3r.myshopify.com ↗</a>)</dd></div>
+          <div><dt>Etsy</dt><dd>The original shop — <a className="inline-link" href={ETSY} target="_blank" rel="noreferrer">etsy.com/shop/12matt3r ↗</a></dd></div>
           {collectibles.map((item) => (
             <div key={item.name}><dt>{item.name}</dt><dd>{item.body} — <a className="inline-link" href={item.url} target="_blank" rel="noreferrer">{item.url.replace('https://', '')} ↗</a></dd></div>
           ))}

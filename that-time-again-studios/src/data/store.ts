@@ -1,6 +1,11 @@
 // Where the studio sells and takes support. Links come from the festival's Merch Tent and the
 // collective's catalog (Site repo: src/data/destinations.js, src/data/catalog.js).
 
+// The studio's Shopify store. doesntmatter.store is the custom domain; myshopify.com is the
+// underlying Shopify address (works even before the custom domain finishes propagating).
+export const SHOP_URL = 'https://www.doesntmatter.store'
+export const SHOP_BACKUP_URL = 'https://12matt3r.myshopify.com'
+
 export const ETSY = 'https://www.etsy.com/shop/12matt3r'
 
 export const commissions = [
