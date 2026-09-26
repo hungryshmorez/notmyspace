@@ -4,6 +4,7 @@ import { HomePage } from './routes/index'
 import { BooksPage } from './routes/books'
 import { RecordsPage } from './routes/records'
 import { ShowDetailPage } from './routes/shows.$slug'
+import { StorePage } from './routes/store'
 
 const rootRoute = createRootRoute({
   component: () => <Shell><Outlet /></Shell>,
@@ -33,7 +34,13 @@ const booksRoute = createRoute({
   component: BooksPage,
 })
 
-const routeTree = rootRoute.addChildren([indexRoute, showRoute, recordsRoute, booksRoute])
+const storeRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '/store',
+  component: StorePage,
+})
+
+const routeTree = rootRoute.addChildren([indexRoute, showRoute, recordsRoute, booksRoute, storeRoute])
 
 // The standalone build is opened straight from disk (file://), so it routes by hash.
 const history = import.meta.env.MODE === 'standalone' ? createHashHistory() : undefined

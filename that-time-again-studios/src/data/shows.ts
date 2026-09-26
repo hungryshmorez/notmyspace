@@ -17,6 +17,7 @@ export type GalleryItem = {
   description?: string
 }
 
+import { slateEpisodes } from './episodes'
 import { slate, type SlateEntry } from './slate'
 
 export type Show = SlateEntry & {
@@ -73,7 +74,12 @@ const byTitle = (a: SlateEntry, b: SlateEntry) => a.title.localeCompare(b.title)
 // That Time Again with Al & Sloppy leads; the rest of the slate is alphabetical.
 export const shows: Show[] = [...slate]
   .sort((a, b) => (a.slug === 'al-and-sloppy' ? -1 : b.slug === 'al-and-sloppy' ? 1 : byTitle(a, b)))
-  .map((entry) => ({ status: 'In development', ...entry, ...extras[entry.slug] }))
+  .map((entry) => {
+    const show: Show = { status: 'In development', ...entry, ...extras[entry.slug] }
+    show.episodes ??= slateEpisodes[entry.slug]
+    if (show.episodes?.length && show.status === 'In development') show.status = 'Streaming now'
+    return show
+  })
 
 export const genres = [...new Set(shows.map((show) => show.genre))].sort()
 

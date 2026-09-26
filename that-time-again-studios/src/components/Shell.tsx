@@ -34,6 +34,7 @@ export function Shell({ children }: { children: ReactNode }) {
             <Link to="/" hash="episodes">Episodes</Link>
             <Link to="/records">Records</Link>
             <Link to="/books">Books</Link>
+            <Link to="/store">Store</Link>
             <Link to="/" hash="worlds">Worlds</Link>
           </nav>
           <a className="header-note" href={FESTIVAL} target="_blank" rel="noreferrer">Enter the festival ↗</a>

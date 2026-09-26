@@ -13,20 +13,37 @@ export function useTheater() {
 }
 
 // Episodes play here, in a big player over the page, and roll on to the next one.
+// The <video> stays mounted so a tap can start it directly (iOS Safari only plays
+// sound when play() runs inside the user's gesture).
 export function TheaterProvider({ children }: { children: ReactNode }) {
   const dialog = useRef<HTMLDialogElement>(null)
+  const video = useRef<HTMLVideoElement>(null)
   const [session, setSession] = useState<Session | null>(null)
   const [failed, setFailed] = useState(false)
 
-  const open = (episodes: Episode[], index: number, showTitle: string) => {
-    setSession({ episodes, index, showTitle })
+  const load = (next: Session) => {
+    const episode = next.episodes[next.index]
+    setSession(next)
     setFailed(false)
-    if (!dialog.current?.open) dialog.current?.showModal()
+    const el = video.current
+    if (!el || !episode) return
+    el.poster = episode.still
+    el.src = episode.videoUrl
+    el.play().catch(() => {}) // if the browser refuses autoplay, the controls are right there
   }
 
-  const go = (index: number) => {
-    setSession((s) => (s ? { ...s, index } : s))
-    setFailed(false)
+  const open = (episodes: Episode[], index: number, showTitle: string) => {
+    if (!dialog.current?.open) dialog.current?.showModal()
+    load({ episodes, index, showTitle })
+  }
+
+  const go = (index: number) => session && load({ ...session, index })
+
+  const close = () => {
+    video.current?.pause()
+    video.current?.removeAttribute('src')
+    video.current?.load()
+    setSession(null)
   }
 
   const episode = session?.episodes[session.index]
@@ -40,40 +57,40 @@ export function TheaterProvider({ children }: { children: ReactNode }) {
         ref={dialog}
         className="theater"
         aria-label="Episode player"
-        onClose={() => setSession(null)}
+        onClose={close}
         onClick={(event) => event.target === dialog.current && dialog.current.close()}
       >
-        {session && episode && (
-          <div className="theater-inner">
-            <div className="theater-top">
-              <span className="label">{session.showTitle} / {episode.seasonEpisode ?? `Episode ${episode.number}`}</span>
-              <button className="bar-button" onClick={() => dialog.current?.close()} aria-label="Close player">×</button>
-            </div>
-            <div className={`theater-screen${episode.vertical ? ' theater-screen--vertical' : ''}`}>
-              {failed ? (
-                <div className="theater-fallback">
-                  <img src={episode.still} alt="" />
-                  <div>
-                    <p>This episode can’t play on this page — the host blocks outside video.</p>
-                    <div className="actions">
-                      <a className="button" href={LIVE_URL} target="_blank" rel="noreferrer">Watch on the live site ↗</a>
-                      <a className="text-link" href={episode.showrunnerUrl} target="_blank" rel="noreferrer">Watch on Showrunner ↗</a>
-                    </div>
+        <div className="theater-inner">
+          <div className="theater-top">
+            <span className="label">
+              {session && episode ? `${session.showTitle} / ${episode.seasonEpisode ?? `Episode ${episode.number}`}` : ''}
+            </span>
+            <button className="bar-button" onClick={() => dialog.current?.close()} aria-label="Close player">×</button>
+          </div>
+          <div className={`theater-screen${episode?.vertical ? ' theater-screen--vertical' : ''}`}>
+            <video
+              ref={video}
+              controls
+              playsInline
+              preload="none"
+              hidden={failed}
+              onError={() => video.current?.getAttribute('src') && setFailed(true)}
+              onEnded={() => hasNext && session && go(session.index + 1)}
+            />
+            {failed && episode && (
+              <div className="theater-fallback">
+                <img src={episode.still} alt="" />
+                <div>
+                  <p>This episode can’t play on this page — the host blocks outside video.</p>
+                  <div className="actions">
+                    <a className="button" href={LIVE_URL} target="_blank" rel="noreferrer">Watch on the live site ↗</a>
+                    <a className="text-link" href={episode.showrunnerUrl} target="_blank" rel="noreferrer">Watch on Showrunner ↗</a>
                   </div>
                 </div>
-              ) : (
-                <video
-                  key={episode.videoUrl}
-                  src={episode.videoUrl}
-                  poster={episode.still}
-                  controls
-                  autoPlay
-                  playsInline
-                  onError={() => setFailed(true)}
-                  onEnded={() => hasNext && go(session.index + 1)}
-                />
-              )}
-            </div>
+              </div>
+            )}
+          </div>
+          {session && episode && (
             <div className="theater-meta">
               <div>
                 <h2>{episode.title}</h2>
@@ -85,8 +102,8 @@ export function TheaterProvider({ children }: { children: ReactNode }) {
                 <button className="button" onClick={() => go(session.index + 1)} disabled={!hasNext}>Next episode →</button>
               </div>
             </div>
-          </div>
-        )}
+          )}
+        </div>
       </dialog>
     </TheaterContext.Provider>
   )

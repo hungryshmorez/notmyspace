@@ -3,19 +3,21 @@
 The home of That Time Again Studios: television, music, film, code and strange worlds.
 
 - **Shows**: all 43 shows on the slate, browsed in Netflix-style rows by genre, each with its own page
-- **Episodes**: *That Time Again with Al & Sloppy*, season one. All 11 episodes play right on the site, in a theater player that rolls on to the next episode.
+- **Episodes & clips**: 63 episodes across 28 shows, led by *That Time Again with Al & Sloppy* (11), plus 349 scene clips across 41 shows. Every show with video has a player right on its page.
 - **Records**: That Time Again Records. The full catalogs of SHMOREZ, Tanky Johnson and DriftWave Static (184 tracks across 11 releases) play on the site.
 - **Books**: the library of 30 e-books. Each has its cover, description and contents, and you can read it in the browser or download the PDF. Books from the same worlds as the shows link to them.
+- **Store**: commissions, merch and prints on Etsy, collectibles, Bandcamp, and a tip jar.
 - **Worlds & code**: The Festival, our walkable 3D night festival, plus the artist worlds inside it and the rest of what we build
 
-Live: **https://hungryshmorez.github.io/Site/studios/**. It's published through the Site repo's GitHub Pages; see Deploy.
+Live: **https://itsthat.site** (also at https://hungryshmorez.github.io/Site/studios/). See Deploy.
 
 ## What's on the site
 
 | Page | What it has |
 |------|-------------|
-| `/` | Logo hero, the That Time Again with Al & Sloppy feature, **Browse**: a "Now streaming" row with all 11 episodes, then one sideways-scrolling row of posters per genre (Sci-Fi, Comedy, Horror, Anime, Drama, Family, Fantasy, and "More from the slate"). Then Records, the label roster, Worlds & code, and what we make. |
-| `/shows/<slug>` | Every show has a page with its poster, genre, status, full synopsis and more shows from the same genre. That Time Again with Al & Sloppy's page adds Play season one, all 11 episodes, the cast and the sets. |
+| `/` | Logo hero, the That Time Again with Al & Sloppy feature, **Browse**: a "Now streaming" row with all 11 Al & Sloppy episodes, a "Streaming across the slate" row with the other 27 shows that have episodes, then one sideways-scrolling row of posters per genre (Sci-Fi, Comedy, Horror, Anime, Drama, Family, Fantasy, and "More from the slate"). Then Records, the label roster, Worlds & code, and what we make. |
+| `/shows/<slug>` | Every show has a page with its poster, genre, status, full synopsis and more shows from the same genre. Shows with video get a **player on the page**: a big screen with "Now playing", the episode tiles and a Clips row under it. Tapping a tile plays it right there and rolls on to the next. That Time Again with Al & Sloppy's page also has the cast and the sets. |
+| `/store` | The store: Shop on Etsy, three commission packages (visual identity, audio branding, a web-OS build), collectibles (OpenSea, Drip.haus, Glif), Bandcamp, and the tip jar (CashApp, PayPal). Links live in `src/data/store.ts`. |
 | `/books` | The library: one row per shelf (When Ocean Meets Sky, From the slate, Horror & the uncanny, Strange fiction, Music & the scene, AI & creative craft, Love & relationships, Landscaping manuals). Opening a book shows its cover, description, page count, contents, Read and Download, and a link to its show if it has one. |
 | `/records` | Every album by every label artist, with Play album, Play everything and per-track play. Links to each artist's world at the festival and to their press kit. |
 
@@ -27,6 +29,9 @@ Clicking any episode opens the **theater**, a large player over the page with pr
 |---------|--------|-------|
 | Show slate (titles, genres, synopses) | `src/data/slate.ts` | Transcribed from the pitch documents. Covers are in `public/art/posters/`. |
 | That Time Again with Al & Sloppy episodes, cast, sets | `src/data/shows.ts` (`extras`) | The videos are Showrunner's MP4s. Stills, characters and sets are in `public/art/`. |
+| Episodes for the rest of the slate | `src/data/episodes.ts` | 52 episodes for 27 shows, from each show's public Showrunner page. Stills are in `public/art/episodes/`. |
+| Clips | `src/data/clips.ts` | 349 scenes for 41 slate shows from the Showrunner export (title, description, length, MP4, thumbnail; `creator` when a collaborator made it). |
+| Showrunner export | `data/showrunner/` | Everything public on the Showrunner account, as JSON and CSV: 56 shows, 68 episodes, 402 scenes (with prompts and video links), 388 characters, 154 sets, and 221 profile items. See its README. |
 | Music catalog | **The Media site**: `https://hungryshmorez.github.io/Media/manifest.json` | Read live when the page loads (`src/data/catalog.ts`). Anything uploaded to the Media repo under `music/shmorez/`, `music/tanky/` or `music/driftwave/` appears on the Records page with no rebuild. The album comes from the manifest's `album` field; tracks without one are grouped as Singles. |
 | Artist bios, photos, galleries, featured tracks, links | `src/data/artists.ts` | Bios are condensed from each artist's EPK on the festival site. Gallery images are in `public/art/artists/<slug>/` (SHMOREZ: Synthetic Human Protocol). |
 | E-books | `src/data/books.ts` | Descriptions are written from each book. Covers are page 1 of the PDF, in `public/art/books/`. The PDFs are published with the live site, in the Site repo's `public/studios/books/<slug>.pdf`. |
@@ -47,7 +52,8 @@ npm install
 npm run dev                # local dev server
 npm run typecheck
 npm run build              # production build → dist/
-npm run build:standalone   # regenerate standalone.html
+npm run build:standalone   # regenerate standalone.html (single file, images inlined)
+npm run build:site         # site-build/ for the live copy in the Site repo
 ```
 
 Stack: Vite, React 19, TanStack Router (code-defined route tree in `src/router.tsx`) and TypeScript. The design system is described in `SITE.md`.
@@ -60,7 +66,7 @@ Stack: Vite, React 19, TanStack Router (code-defined route tree in `src/router.t
 
 This folder is self-contained inside the notmyspace repo.
 
-- **Live site (Site repo):** the Site repo already deploys to GitHub Pages on every push to `main`. The studio site lives there as `public/studios/index.html`, a copy of `standalone.html`, served at `https://hungryshmorez.github.io/Site/studios/`, with the e-book PDFs next to it in `public/studios/books/`. To publish changes, run `npm run build:standalone`, copy `standalone.html` over `Site/public/studios/index.html`, and merge to Site's `main`.
+- **Live site (Site repo):** the Site repo already deploys to GitHub Pages on every push to `main`. The studio site lives there in `public/studios/`, served at `https://hungryshmorez.github.io/Site/studios/`. The notmyspace repo's Pages workflow publishes that same folder to **itsthat.site**: `index.html` plus `art/` and `brand/` from `npm run build:site` (JS and CSS inlined, images as separate files so the page loads fast), with the e-book PDFs in `public/studios/books/`. To publish changes, run `npm run build:site`, copy `site-build/*` into `Site/public/studios/` (replacing `index.html`, `art/` and `brand/`, and keeping `books/`), and merge to Site's `main`.
 - **GitHub Pages for this repo:** you can also turn on Pages here and open `that-time-again-studios/standalone.html`.
 - **Vercel / Netlify:** import the repo, set the root directory to `that-time-again-studios`, build with `npm run build` and output to `dist`. `vercel.json` already rewrites every route to the app.
 
