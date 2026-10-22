@@ -370,7 +370,7 @@ body:has(.player-bar) { padding-bottom: 84px; }
   .site-header { grid-template-columns: 1fr auto; height: auto; padding-top: 22px; padding-bottom: 22px; row-gap: 14px; }
   .header-note { display: none; }
   .wordmark img { height: 38px; }
-  .main-nav { gap: 22px; }
+  .main-nav { gap: 22px; flex-wrap: wrap; }
   .feature, .show-intro { grid-template-columns: 1fr; }
   .asset-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .artist-grid { grid-template-columns: 1fr; max-width: 560px; }
