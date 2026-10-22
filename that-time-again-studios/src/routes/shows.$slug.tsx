@@ -36,7 +36,7 @@ export function ShowDetailPage() {
           <Link className="back-link" to="/" hash="browse">← All shows</Link>
           <p className="label">{show.genre} / {show.status}</p>
           <h1>{show.title}</h1>
-          {first && <button className="hero-link hero-link--button" onClick={playFirst}>Play season one <span>▶</span></button>}
+          {first && <button className="hero-link hero-link--button" onClick={playFirst}>Play from the pilot <span>▶</span></button>}
         </div>
         {!show.heroStill && <div className="poster hero-poster"><img src={show.poster} alt={`${show.title} poster`} /></div>}
         {show.heroCaption && <p className="hero-caption">{show.heroCaption}</p>}
@@ -61,7 +61,7 @@ export function ShowDetailPage() {
           <dl className="spec-table spec-table--compact">
             <div><dt>Genre</dt><dd>{show.genre}</dd></div>
             <div><dt>Status</dt><dd>{show.status}</dd></div>
-            {episodes.length > 0 && <div><dt>Episodes</dt><dd>{episodes.length}, season one</dd></div>}
+            {episodes.length > 0 && <div><dt>Episodes</dt><dd>{episodes.length}, two seasons</dd></div>}
             {episodes.length > 0 && <div><dt>Streaming</dt><dd>Right here, and on Showrunner</dd></div>}
           </dl>
         </div>
@@ -78,7 +78,7 @@ export function ShowDetailPage() {
       {episodes.length > 0 && (
         <section className="section" id="episodes">
           <div className="section-head">
-            <h2>Season one.</h2>
+            <h2>Seasons one and two.</h2>
             <p className="label">{episodes.length} episodes</p>
           </div>
           <div className="episode-tile-grid">

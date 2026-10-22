@@ -47,7 +47,7 @@ export function HomePage() {
           <h2>That Time Again <span className="feature-title-with">with Al &amp; Sloppy</span></h2>
           <p className="lede">{flagship.blurb} The Showrunner keeps the content machine alive while Buffer reports from places nobody should have sent him.</p>
           <hr />
-          <p className="label">Season one</p>
+          <p className="label">Seasons one and two</p>
           <p className="fine">{episodes.length} episodes, streaming from Showrunner. Six characters, six sets, one couch that has seen things.</p>
           <div className="actions">
             <button className="button" onClick={() => openTheater(episodes, 0, flagship.title)}>Watch episode one</button>
@@ -61,7 +61,7 @@ export function HomePage() {
           <h2>Browse.</h2>
           <p className="label">{shows.length} shows / {episodes.length} episodes streaming</p>
         </div>
-        <Row id="episodes" title="Now streaming — That Time Again with Al & Sloppy" label="Season one" wide>
+        <Row id="episodes" title="Now streaming — That Time Again with Al & Sloppy" label="Seasons one and two" wide>
           {episodes.map((episode, i) => <EpisodeCard key={episode.number} episodes={episodes} index={i} showTitle={flagship.title} />)}
         </Row>
         {genreRows.map((genre) => (
@@ -146,7 +146,7 @@ export function HomePage() {
           <p className="label">That Time Again Studios</p>
         </div>
         <dl className="spec-table">
-          <div><dt>Television</dt><dd>{shows.length} shows in development. That Time Again with Al &amp; Sloppy, season one, streaming now.</dd></div>
+          <div><dt>Television</dt><dd>{shows.length} shows in development. That Time Again with Al &amp; Sloppy, seasons one and two, streaming now.</dd></div>
           <div><dt>Music</dt><dd>That Time Again Records — SHMOREZ, Tanky Johnson and DriftWave Static, with full catalogs on <Link className="inline-link" to="/records">the Records page</Link>.</dd></div>
           <div><dt>Code</dt><dd>Interactive worlds, web apps and games: <a className="inline-link" href={FESTIVAL} target="_blank" rel="noreferrer">The Festival</a>, the DreamOS web-OS, the Wake Up game series, and this site. Source on <a className="inline-link" href="https://github.com/12Matt3r" target="_blank" rel="noreferrer">GitHub</a>.</dd></div>
           <div><dt>Books</dt><dd>{books.length} e-books: novels from the same worlds as the shows, horror, strange fiction and field guides, in <Link className="inline-link" to="/books">the library</Link>.</dd></div>
