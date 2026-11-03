@@ -1,6 +1,6 @@
 import { useEffect, type ReactNode } from 'react'
 import { Link } from '@tanstack/react-router'
-import { FESTIVAL } from '../data/artists'
+import { UNDERGROUND } from '../data/artists'
 import { BookProvider } from './Books'
 import { Grain } from './Grain'
 import { PlayerProvider } from './Player'
@@ -37,7 +37,7 @@ export function Shell({ children }: { children: ReactNode }) {
             <Link to="/" hash="worlds">Worlds</Link>
             <a href="/mago-pilots/">Mago creator submission document</a>
           </nav>
-          <a className="header-note" href={FESTIVAL} target="_blank" rel="noreferrer">Enter the festival ↗</a>
+          <a className="header-note" href={UNDERGROUND} target="_blank" rel="noreferrer">Enter the Underground ↗</a>
         </header>
         {children}
         <footer className="site-footer">

@@ -20,6 +20,8 @@ export type Artist = {
 }
 
 export const FESTIVAL = 'https://hungryshmorez.github.io/Site/'
+// The Underground is the main page of the worlds; the festival is out the street's gateway inside it.
+export const UNDERGROUND = `${FESTIVAL}underground.html`
 
 const MEDIA = 'https://hungryshmorez.github.io/Media/music/'
 
