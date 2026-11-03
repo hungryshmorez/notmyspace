@@ -4,6 +4,7 @@ import { BookCard } from '../components/Books'
 import { EpisodeCard, PosterCard, Row } from '../components/Row'
 import { useTheater } from '../components/Theater'
 import { artists, FESTIVAL, UNDERGROUND } from '../data/artists'
+import { APPS, ARCADE, hostOf } from '../data/apps'
 import { books } from '../data/books'
 import { genres, getShow, shows } from '../data/shows'
 
@@ -134,6 +135,40 @@ export function HomePage() {
               <a href={world.url} target="_blank" rel="noreferrer">
                 <span className="world-name">{world.name} ↗</span>
                 <span className="label">{world.where}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <section className="section" id="arcade">
+        <div className="section-head">
+          <h2>Arcade.</h2>
+          <p className="label">Games / Play in your browser</p>
+        </div>
+        <ul className="world-links">
+          {ARCADE.map((g) => (
+            <li key={g.url}>
+              <a href={g.url} target="_blank" rel="noreferrer">
+                <span className="world-name">{g.name} ↗</span>
+                <span className="label">{hostOf(g.url)}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <section className="section" id="apps">
+        <div className="section-head">
+          <h2>Apps and sites.</h2>
+          <p className="label">Tools / Documentation / Experiments</p>
+        </div>
+        <ul className="world-links">
+          {APPS.map((a) => (
+            <li key={a.url + a.name}>
+              <a href={a.url} target="_blank" rel="noreferrer">
+                <span className="world-name">{a.name} ↗</span>
+                <span className="label">{hostOf(a.url)}</span>
               </a>
             </li>
           ))}

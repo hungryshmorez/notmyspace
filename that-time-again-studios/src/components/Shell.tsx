@@ -35,7 +35,9 @@ export function Shell({ children }: { children: ReactNode }) {
             <Link to="/records">Records</Link>
             <Link to="/books">Books</Link>
             <Link to="/" hash="worlds">Worlds</Link>
-            <a href="/mago-pilots/">Mago creator submission document</a>
+            <Link to="/" hash="arcade">Arcade</Link>
+            <Link to="/" hash="apps">Apps</Link>
+            <a href="/mago-pilots/">Creator submission form</a>
           </nav>
           <a className="header-note" href={UNDERGROUND} target="_blank" rel="noreferrer">Enter the Underground ↗</a>
         </header>
