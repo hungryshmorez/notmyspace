@@ -3,7 +3,7 @@ import { ArtistCard } from '../components/ArtistCard'
 import { BookCard } from '../components/Books'
 import { EpisodeCard, PosterCard, Row } from '../components/Row'
 import { useTheater } from '../components/Theater'
-import { artists, FESTIVAL } from '../data/artists'
+import { artists, FESTIVAL, UNDERGROUND } from '../data/artists'
 import { books } from '../data/books'
 import { genres, getShow, shows } from '../data/shows'
 
@@ -115,16 +115,16 @@ export function HomePage() {
           <p className="label">Code / Interactive / Real-time 3D</p>
         </div>
         <div className="world-feature">
-          <a className="world-shot" href={FESTIVAL} target="_blank" rel="noreferrer">
-            <img src="/art/worlds/festival.webp" alt="The Festival at sunset: neon light poles, a stage screen and the crowd barrier" loading="lazy" />
+          <a className="world-shot" href={UNDERGROUND} target="_blank" rel="noreferrer">
+            <img src="/art/worlds/festival.webp" alt="The festival at sunset inside the Underground: neon light poles, a stage screen and the crowd barrier" loading="lazy" />
             <span className="world-badge">Live in your browser</span>
           </a>
           <div>
-            <p className="label">The Festival</p>
-            <h3 className="world-title">A night festival you can walk through.</h3>
-            <p className="fine">Our own world, coded from scratch in Three.js. Spawn on a bench at the edge of the crowd, walk the grounds, and reach an artist to step into their world — SHMOREZ in the pit, DriftWave Static in the chill zone, Tanky Johnson on the right flank.</p>
+            <p className="label">The Underground</p>
+            <h3 className="world-title">A whole night world you can walk through.</h3>
+            <p className="fine">Our own world, coded from scratch in Three.js: a club with two DJ stages, a street, a movie theater, a museum, a complex of rooms, and the festival out the street’s gateway. Walk out to the festival grounds, spawn on a bench at the edge of the crowd, walk the grounds, and reach an artist to step into their world — SHMOREZ in the pit, DriftWave Static in the chill zone, Tanky Johnson on the right flank.</p>
             <div className="actions">
-              <a className="button" href={FESTIVAL} target="_blank" rel="noreferrer">Enter the festival ↗</a>
+              <a className="button" href={UNDERGROUND} target="_blank" rel="noreferrer">Enter the Underground ↗</a>
             </div>
           </div>
         </div>
@@ -148,7 +148,7 @@ export function HomePage() {
         <dl className="spec-table">
           <div><dt>Television</dt><dd>{shows.length} shows in development. That Time Again with Al &amp; Sloppy, seasons one and two, streaming now.</dd></div>
           <div><dt>Music</dt><dd>That Time Again Records — SHMOREZ, Tanky Johnson and DriftWave Static, with full catalogs on <Link className="inline-link" to="/records">the Records page</Link>.</dd></div>
-          <div><dt>Code</dt><dd>Interactive worlds, web apps and games: <a className="inline-link" href={FESTIVAL} target="_blank" rel="noreferrer">The Festival</a>, the DreamOS web-OS, the Wake Up game series, and this site. Source on <a className="inline-link" href="https://github.com/12Matt3r" target="_blank" rel="noreferrer">GitHub</a>.</dd></div>
+          <div><dt>Code</dt><dd>Interactive worlds, web apps and games: <a className="inline-link" href={UNDERGROUND} target="_blank" rel="noreferrer">The Underground</a>, the DreamOS web-OS, the Wake Up game series, and this site. Source on <a className="inline-link" href="https://github.com/12Matt3r" target="_blank" rel="noreferrer">GitHub</a>.</dd></div>
           <div><dt>Books</dt><dd>{books.length} e-books: novels from the same worlds as the shows, horror, strange fiction and field guides, in <Link className="inline-link" to="/books">the library</Link>.</dd></div>
           <div><dt>Worlds</dt><dd>Stories that spill across mediums: puppets, broken signals, strange humor and places that linger.</dd></div>
         </dl>

@@ -30,7 +30,7 @@ Clicking any episode opens the **theater**, a large player over the page with pr
 | Music catalog | **The Media site**: `https://hungryshmorez.github.io/Media/manifest.json` | Read live when the page loads (`src/data/catalog.ts`). Anything uploaded to the Media repo under `music/shmorez/`, `music/tanky/` or `music/driftwave/` appears on the Records page with no rebuild. The album comes from the manifest's `album` field; tracks without one are grouped as Singles. |
 | Artist bios, photos, galleries, featured tracks, links | `src/data/artists.ts` | Bios are condensed from each artist's EPK on the festival site. Gallery images are in `public/art/artists/<slug>/` (SHMOREZ: Synthetic Human Protocol). |
 | E-books | `src/data/books.ts` | Descriptions are written from each book. Covers are page 1 of the PDF, in `public/art/books/`. The PDFs are published with the live site, in the Site repo's `public/studios/books/<slug>.pdf`. |
-| The Festival and the artist worlds | **The Site repo**: `https://hungryshmorez.github.io/Site/` | Linked from the header ("Enter the festival"), the Worlds section and each artist's links. |
+| The Festival and the artist worlds | **The Site repo**: `https://hungryshmorez.github.io/Site/` | The header ("Enter the Underground") and the Worlds section link to `underground.html`, the main page; the festival is inside it, out the street's gateway. Each artist's links go to their own world pages. |
 
 ## Adding things
 
